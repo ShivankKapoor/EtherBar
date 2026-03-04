@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AppKit
+import CoreWLAN
 
 @main
 struct EtherBarApp: App {
@@ -20,13 +21,56 @@ struct EtherBarApp: App {
 class AppDelegate: NSObject, NSApplicationDelegate {
     var statusItem: NSStatusItem?
     var networkMonitor = NetworkMonitor()
+    private var lastEthernetState: Bool? = nil
+    private var lastWifiState: Bool? = nil
+
+    // Persistent menu items — built once, updated in place
+    private let ethernetMenuItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+    private lazy var wifiMenuItem: NSMenuItem = {
+        let item = NSMenuItem(title: "", action: #selector(toggleWiFi), keyEquivalent: "")
+        item.target = self
+        return item
+    }()
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
 
+        // Build menu once
+        let menu = NSMenu()
+        menu.addItem(ethernetMenuItem)
+        menu.addItem(NSMenuItem.separator())
+        menu.addItem(wifiMenuItem)
+        menu.addItem(NSMenuItem.separator())
+        menu.addItem(NSMenuItem(title: "Quit EtherBar", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
+        statusItem?.menu = menu
+
         updateIcon()
 
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            self?.checkForChanges()
+        }
+    }
+
+    func checkForChanges() {
+        let ethernetState = networkMonitor.isEthernetConnected
+        let wifiState = isWiFiEnabled()
+
+        if ethernetState != lastEthernetState || wifiState != lastWifiState {
+            lastEthernetState = ethernetState
+            lastWifiState = wifiState
+            updateIcon()
+        }
+    }
+
+    func isWiFiEnabled() -> Bool {
+        return CWWiFiClient.shared().interface()?.powerOn() ?? false
+    }
+
+    @objc func toggleWiFi() {
+        guard let interface = CWWiFiClient.shared().interface() else { return }
+        let current = interface.powerOn()
+        try? interface.setPower(!current)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
             self?.updateIcon()
         }
     }
@@ -42,15 +86,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             button.image = copy
         }
 
-        // Dim the button when disconnected — keeps layout identical so menu aligns correctly
         button.alphaValue = connected ? 1.0 : 0.4
 
-        // Rebuild menu each time so the text stays current
-        let menu = NSMenu()
-        let title = connected ? "Ethernet Connected" : "No Ethernet"
-        menu.addItem(NSMenuItem(title: title, action: nil, keyEquivalent: ""))
-        menu.addItem(NSMenuItem.separator())
-        menu.addItem(NSMenuItem(title: "Quit EtherBar", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
-        statusItem?.menu = menu
+        // Update menu items in place — no menu reassignment
+        ethernetMenuItem.title = connected ? "Ethernet Connected" : "No Ethernet"
+        wifiMenuItem.title = isWiFiEnabled() ? "Turn Wi-Fi Off" : "Turn Wi-Fi On"
     }
 }
