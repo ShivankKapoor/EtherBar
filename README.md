@@ -12,9 +12,11 @@ A lightweight macOS menu bar app that monitors your Ethernet connection and netw
 - **Wi-Fi toggle** — enable or disable Wi-Fi directly from the menu bar
 - **Zero Dock presence** — lives entirely in the menu bar, no Dock icon
 
-## Screenshot
+## Screenshots
 
-> *(Add a screenshot here)*
+<img width="228" alt="EtherBar - Ethernet connected" src="https://github.com/user-attachments/assets/90a80819-d94e-4b44-84a6-7b33edaf6cae" />
+<img width="240" alt="EtherBar - Traffic view" src="https://github.com/user-attachments/assets/2bf46ef0-ea4a-4965-be7a-085462b351c7" />
+<img width="235" alt="EtherBar - Wi-Fi toggle" src="https://github.com/user-attachments/assets/2ac3ee4e-4c13-4f3d-8d34-7810b470eec9" />
 
 ## Installation
 
