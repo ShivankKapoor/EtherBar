@@ -248,10 +248,11 @@ struct PercentSplitRow: View {
 
     var body: some View {
         HStack(spacing: 6) {
-            Text(String(format: "%.0f%%", ethernetPercent * 100))
-                .font(.system(size: 10, design: .monospaced))
-                .foregroundStyle(.blue)
-                .frame(width: 28, alignment: .leading)
+            // Blank spacer to match the 14pt icon in UnitTrafficRow
+            Image(systemName: "arrow.left.arrow.right")
+                .font(.system(size: 11))
+                .frame(width: 14)
+                .foregroundStyle(.secondary)
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 3).fill(Color.green.opacity(0.4))
@@ -262,10 +263,11 @@ struct PercentSplitRow: View {
                 }
             }
             .frame(height: 6)
-            Text(String(format: "%.0f%%", wifiPercent * 100))
+            // Single label on the right matching the 72pt rate label
+            Text(String(format: "%.0f%% / %.0f%%", ethernetPercent * 100, wifiPercent * 100))
                 .font(.system(size: 10, design: .monospaced))
-                .foregroundStyle(.green)
-                .frame(width: 28, alignment: .trailing)
+                .foregroundStyle(.secondary)
+                .frame(width: 72, alignment: .trailing)
         }
     }
 }
