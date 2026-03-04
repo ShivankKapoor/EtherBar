@@ -24,22 +24,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var lastEthernetState: Bool? = nil
     private var lastWifiState: Bool? = nil
 
-    // Persistent menu items — built once, updated in place
     private let ethernetMenuItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
-    private lazy var wifiMenuItem: NSMenuItem = {
-        let item = NSMenuItem(title: "", action: #selector(toggleWiFi), keyEquivalent: "")
-        item.target = self
-        return item
-    }()
+    private var wifiToggleItem = NSMenuItem()
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
 
-        // Build menu once
         let menu = NSMenu()
         menu.addItem(ethernetMenuItem)
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(wifiMenuItem)
+
+        // WiFi toggle row with SwiftUI toggle view
+        wifiToggleItem = NSMenuItem()
+        let wifiView = NSHostingView(rootView: WiFiToggleView(isOn: isWiFiEnabled(), onToggle: { [weak self] in
+            self?.toggleWiFi()
+        }))
+        wifiView.frame = NSRect(x: 0, y: 0, width: 200, height: 28)
+        wifiToggleItem.view = wifiView
+
+        menu.addItem(wifiToggleItem)
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit EtherBar", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
         statusItem?.menu = menu
@@ -66,12 +69,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return CWWiFiClient.shared().interface()?.powerOn() ?? false
     }
 
-    @objc func toggleWiFi() {
+    func toggleWiFi() {
         guard let interface = CWWiFiClient.shared().interface() else { return }
         let current = interface.powerOn()
-        try? interface.setPower(!current)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-            self?.updateIcon()
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            try? interface.setPower(!current)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self?.updateIcon()
+            }
         }
     }
 
@@ -87,9 +92,54 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         button.alphaValue = connected ? 1.0 : 0.4
-
-        // Update menu items in place — no menu reassignment
         ethernetMenuItem.title = connected ? "Ethernet Connected" : "No Ethernet"
-        wifiMenuItem.title = isWiFiEnabled() ? "Turn Wi-Fi Off" : "Turn Wi-Fi On"
+
+        // Refresh the toggle view with current wifi state
+        let wifiOn = isWiFiEnabled()
+        let wifiView = NSHostingView(rootView: WiFiToggleView(isOn: wifiOn, onToggle: { [weak self] in
+            self?.toggleWiFi()
+        }))
+        wifiView.frame = NSRect(x: 0, y: 0, width: 200, height: 28)
+        wifiToggleItem.view = wifiView
+    }
+}
+
+struct WiFiToggleView: View {
+    let isOn: Bool
+    let onToggle: () -> Void
+    @State private var optimisticState: Bool
+
+    init(isOn: Bool, onToggle: @escaping () -> Void) {
+        self.isOn = isOn
+        self.onToggle = onToggle
+        self._optimisticState = State(initialValue: isOn)
+    }
+
+    var body: some View {
+        HStack {
+            Image(systemName: "wifi")
+                .foregroundStyle(.primary)
+                .font(.system(size: 12))
+            Text("Wi-Fi")
+                .foregroundStyle(.primary)
+                .font(.system(size: 13))
+            Spacer()
+            Toggle("", isOn: Binding(
+                get: { optimisticState },
+                set: { newValue in
+                    optimisticState = newValue
+                    onToggle()
+                }
+            ))
+            .toggleStyle(.switch)
+            .labelsHidden()
+            .scaleEffect(0.7, anchor: .trailing)
+        }
+        .padding(.horizontal, 14)
+        .frame(height: 28)
+        .contentShape(Rectangle())
+        .onChange(of: isOn) { _, newValue in
+            optimisticState = newValue
+        }
     }
 }
