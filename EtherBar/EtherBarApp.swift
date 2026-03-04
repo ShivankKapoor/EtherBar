@@ -37,6 +37,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let ethernetMenuItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
     private var wifiToggleItem = NSMenuItem()
     private var trafficItem = NSMenuItem()
+    // Retained so it isn't deallocated after applicationDidFinishLaunching returns
+    private var bgTimer: DispatchSourceTimer?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
@@ -66,41 +68,99 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(NSMenuItem(title: "Quit EtherBar", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
         statusItem?.menu = menu
 
-        _ = trafficMonitor.sample()
-        refreshInBackground()
-
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            self?.bgQueue.async { self?.refreshInBackground() }
+        // Resolve interface names on background thread, then start retained timer
+        bgQueue.async { [weak self] in
+            guard let self else { return }
+            self.resolveInterfaces()
+            self.interfacesResolved = true
+            _ = self.trafficMonitor.sample() // prime baseline sample
+            self.refreshInBackground()
+            self.startTimer()
         }
     }
 
-    func refreshInBackground() {
-        let ethernetState = networkMonitor.isEthernetConnected
-        let wifiState = shell("/usr/sbin/networksetup -getairportpower en0").lowercased().contains("on")
-        let rates = trafficMonitor.sample()
-        let ethernetRate = rates.filter { $0.key != "en0" && $0.key.hasPrefix("en") }.values.reduce(0, +)
-        let wifiRate = rates["en0"] ?? 0
+    private func startTimer() {
+        let timer = DispatchSource.makeTimerSource(queue: bgQueue)
+        timer.schedule(deadline: .now() + 1.0, repeating: 1.0)
+        timer.setEventHandler { [weak self] in self?.refreshInBackground() }
+        timer.resume()
+        bgTimer = timer // retain so it isn't released
+    }
 
-        DispatchQueue.main.async { [weak self] in
+    // MARK: - Interface Resolution
+
+    private var wifiInterface: String = ""
+    private var ethernetInterfaces: Set<String> = []
+    private var interfacesResolved: Bool = false
+
+    func resolveInterfaces() {
+        let output = shell("/usr/sbin/networksetup -listallhardwareports")
+        let lines = output.components(separatedBy: "\n")
+        var i = 0
+        while i < lines.count - 1 {
+            let line = lines[i].trimmingCharacters(in: .whitespaces)
+            let nextLine = lines[i + 1].trimmingCharacters(in: .whitespaces)
+            let device = nextLine.hasPrefix("Device:") ? String(nextLine.dropFirst(7)).trimmingCharacters(in: .whitespaces) : ""
+            if !device.isEmpty {
+                if line.contains("Wi-Fi") {
+                    wifiInterface = device
+                } else if line.lowercased().contains("ethernet")
+                            || line.contains("AX88")
+                            || line.contains("USB")
+                            || line.contains("Thunderbolt") {
+                    ethernetInterfaces.insert(device)
+                }
+            }
+            i += 1
+        }
+    }
+
+    // MARK: - Background Refresh
+
+    func refreshInBackground() {
+        guard interfacesResolved else { return }
+
+        let ethernetState = networkMonitor.isEthernetConnected
+
+        let wifiState: Bool
+        if wifiInterface.isEmpty {
+            wifiState = false
+        } else {
+            wifiState = shell("/usr/sbin/networksetup -getairportpower \(wifiInterface)")
+                .lowercased().contains("on")
+        }
+
+        let rates = trafficMonitor.sample()
+
+        let ethernetRate: Double
+        if ethernetInterfaces.isEmpty {
+            // Fallback: sum all en* that aren't the Wi-Fi interface
+            ethernetRate = rates
+                .filter { $0.key != wifiInterface && $0.key.hasPrefix("en") }
+                .values.reduce(0, +)
+        } else {
+            ethernetRate = ethernetInterfaces.compactMap { rates[$0] }.reduce(0, +)
+        }
+        let wifiRate = wifiInterface.isEmpty ? 0 : (rates[wifiInterface] ?? 0)
+
+        CFRunLoopPerformBlock(CFRunLoopGetMain(), CFRunLoopMode.commonModes.rawValue) { [weak self] in
             guard let self else { return }
-            // Update observable state — views update themselves automatically
             self.appState.wifiEnabled = wifiState
             self.appState.ethernetConnected = ethernetState
             self.appState.ethernetRate = ethernetRate
             self.appState.wifiRate = wifiRate
 
-            // Resize traffic view to fit only visible rows
             let rows = (ethernetState ? 1 : 0) + (wifiState ? 1 : 0) + (ethernetState && wifiState ? 1 : 0)
             let height = rows > 0 ? CGFloat(rows * 17 + 12) : 2
             self.trafficItem.view?.frame = NSRect(x: 0, y: 0, width: 220, height: height)
 
-            // Only update button/title when connection state changes
             if ethernetState != self.lastEthernetState || wifiState != self.lastWifiState {
                 self.lastEthernetState = ethernetState
                 self.lastWifiState = wifiState
                 self.applyIconUpdate(connected: ethernetState)
             }
         }
+        CFRunLoopWakeUp(CFRunLoopGetMain())
     }
 
     func applyIconUpdate(connected: Bool) {
@@ -115,17 +175,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         ethernetMenuItem.title = connected ? "Ethernet Connected" : "No Ethernet"
     }
 
+    // MARK: - Wi-Fi Toggle
+
     func toggleWiFi() {
+        guard !wifiInterface.isEmpty else { return }
         let turningOn = !appState.wifiEnabled
         let newState = turningOn ? "on" : "off"
         bgQueue.async { [weak self] in
-            self?.shell("/usr/sbin/networksetup -setairportpower en0 \(newState)")
+            guard let self else { return }
+            self.shell("/usr/sbin/networksetup -setairportpower \(self.wifiInterface) \(newState)")
             let delay: Double = turningOn ? 3.0 : 0.5
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-                self?.bgQueue.async { self?.refreshInBackground() }
+                self.bgQueue.async { self.refreshInBackground() }
             }
         }
     }
+
+    // MARK: - Shell Helper
 
     @discardableResult
     func shell(_ command: String) -> String {
@@ -248,7 +314,6 @@ struct PercentSplitRow: View {
 
     var body: some View {
         HStack(spacing: 6) {
-            // Blank spacer to match the 14pt icon in UnitTrafficRow
             Image(systemName: "arrow.left.arrow.right")
                 .font(.system(size: 11))
                 .frame(width: 14)
@@ -263,7 +328,6 @@ struct PercentSplitRow: View {
                 }
             }
             .frame(height: 6)
-            // Single label on the right matching the 72pt rate label
             Text(String(format: "%.0f%% / %.0f%%", ethernetPercent * 100, wifiPercent * 100))
                 .font(.system(size: 10, design: .monospaced))
                 .foregroundStyle(.secondary)
