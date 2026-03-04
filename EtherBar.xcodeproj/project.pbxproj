@@ -1,578 +1,579 @@
 // !$*UTF8*$!
 {
-	archiveVersion = 1;
-	classes = {
-	};
-	objectVersion = 77;
-	objects = {
+    archiveVersion = 1;
+    classes = {
+    };
+    objectVersion = 77;
+    objects = {
 
 /* Begin PBXContainerItemProxy section */
-		C032F1782F578F910085554A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C032F1622F578F900085554A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C032F1692F578F900085554A;
-			remoteInfo = EtherBar;
-		};
-		C032F1822F578F910085554A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C032F1622F578F900085554A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C032F1692F578F900085554A;
-			remoteInfo = EtherBar;
-		};
+        C032F1782F578F910085554A /* PBXContainerItemProxy */ = {
+            isa = PBXContainerItemProxy;
+            containerPortal = C032F1622F578F900085554A /* Project object */;
+            proxyType = 1;
+            remoteGlobalIDString = C032F1692F578F900085554A;
+            remoteInfo = EtherBar;
+        };
+        C032F1822F578F910085554A /* PBXContainerItemProxy */ = {
+            isa = PBXContainerItemProxy;
+            containerPortal = C032F1622F578F900085554A /* Project object */;
+            proxyType = 1;
+            remoteGlobalIDString = C032F1692F578F900085554A;
+            remoteInfo = EtherBar;
+        };
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		C032F16A2F578F900085554A /* EtherBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EtherBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C032F1772F578F910085554A /* EtherBarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EtherBarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C032F1812F578F910085554A /* EtherBarUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EtherBarUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+        C032F16A2F578F900085554A /* EtherBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EtherBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+        C032F1772F578F910085554A /* EtherBarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EtherBarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+        C032F1812F578F910085554A /* EtherBarUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EtherBarUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		C032F16C2F578F900085554A /* EtherBar */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = EtherBar;
-			sourceTree = "<group>";
-		};
-		C032F17A2F578F910085554A /* EtherBarTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = EtherBarTests;
-			sourceTree = "<group>";
-		};
-		C032F1842F578F910085554A /* EtherBarUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = EtherBarUITests;
-			sourceTree = "<group>";
-		};
+        C032F16C2F578F900085554A /* EtherBar */ = {
+            isa = PBXFileSystemSynchronizedRootGroup;
+            path = EtherBar;
+            sourceTree = "<group>";
+        };
+        C032F17A2F578F910085554A /* EtherBarTests */ = {
+            isa = PBXFileSystemSynchronizedRootGroup;
+            path = EtherBarTests;
+            sourceTree = "<group>";
+        };
+        C032F1842F578F910085554A /* EtherBarUITests */ = {
+            isa = PBXFileSystemSynchronizedRootGroup;
+            path = EtherBarUITests;
+            sourceTree = "<group>";
+        };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		C032F1672F578F900085554A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C032F1742F578F910085554A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C032F17E2F578F910085554A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
+        C032F1672F578F900085554A /* Frameworks */ = {
+            isa = PBXFrameworksBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        C032F1742F578F910085554A /* Frameworks */ = {
+            isa = PBXFrameworksBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        C032F17E2F578F910085554A /* Frameworks */ = {
+            isa = PBXFrameworksBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C032F1612F578F900085554A = {
-			isa = PBXGroup;
-			children = (
-				C032F16C2F578F900085554A /* EtherBar */,
-				C032F17A2F578F910085554A /* EtherBarTests */,
-				C032F1842F578F910085554A /* EtherBarUITests */,
-				C032F16B2F578F900085554A /* Products */,
-			);
-			sourceTree = "<group>";
-		};
-		C032F16B2F578F900085554A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C032F16A2F578F900085554A /* EtherBar.app */,
-				C032F1772F578F910085554A /* EtherBarTests.xctest */,
-				C032F1812F578F910085554A /* EtherBarUITests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
+        C032F1612F578F900085554A = {
+            isa = PBXGroup;
+            children = (
+                C032F16C2F578F900085554A /* EtherBar */,
+                C032F17A2F578F910085554A /* EtherBarTests */,
+                C032F1842F578F910085554A /* EtherBarUITests */,
+                C032F16B2F578F900085554A /* Products */,
+            );
+            sourceTree = "<group>";
+        };
+        C032F16B2F578F900085554A /* Products */ = {
+            isa = PBXGroup;
+            children = (
+                C032F16A2F578F900085554A /* EtherBar.app */,
+                C032F1772F578F910085554A /* EtherBarTests.xctest */,
+                C032F1812F578F910085554A /* EtherBarUITests.xctest */,
+            );
+            name = Products;
+            sourceTree = "<group>";
+        };
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C032F1692F578F900085554A /* EtherBar */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C032F18B2F578F910085554A /* Build configuration list for PBXNativeTarget "EtherBar" */;
-			buildPhases = (
-				C032F1662F578F900085554A /* Sources */,
-				C032F1672F578F900085554A /* Frameworks */,
-				C032F1682F578F900085554A /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				C032F16C2F578F900085554A /* EtherBar */,
-			);
-			name = EtherBar;
-			packageProductDependencies = (
-			);
-			productName = EtherBar;
-			productReference = C032F16A2F578F900085554A /* EtherBar.app */;
-			productType = "com.apple.product-type.application";
-		};
-		C032F1762F578F910085554A /* EtherBarTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C032F18E2F578F910085554A /* Build configuration list for PBXNativeTarget "EtherBarTests" */;
-			buildPhases = (
-				C032F1732F578F910085554A /* Sources */,
-				C032F1742F578F910085554A /* Frameworks */,
-				C032F1752F578F910085554A /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				C032F1792F578F910085554A /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				C032F17A2F578F910085554A /* EtherBarTests */,
-			);
-			name = EtherBarTests;
-			packageProductDependencies = (
-			);
-			productName = EtherBarTests;
-			productReference = C032F1772F578F910085554A /* EtherBarTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		C032F1802F578F910085554A /* EtherBarUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C032F1912F578F910085554A /* Build configuration list for PBXNativeTarget "EtherBarUITests" */;
-			buildPhases = (
-				C032F17D2F578F910085554A /* Sources */,
-				C032F17E2F578F910085554A /* Frameworks */,
-				C032F17F2F578F910085554A /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				C032F1832F578F910085554A /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				C032F1842F578F910085554A /* EtherBarUITests */,
-			);
-			name = EtherBarUITests;
-			packageProductDependencies = (
-			);
-			productName = EtherBarUITests;
-			productReference = C032F1812F578F910085554A /* EtherBarUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
+        C032F1692F578F900085554A /* EtherBar */ = {
+            isa = PBXNativeTarget;
+            buildConfigurationList = C032F18B2F578F910085554A /* Build configuration list for PBXNativeTarget "EtherBar" */;
+            buildPhases = (
+                C032F1662F578F900085554A /* Sources */,
+                C032F1672F578F900085554A /* Frameworks */,
+                C032F1682F578F900085554A /* Resources */,
+            );
+            buildRules = (
+            );
+            dependencies = (
+            );
+            fileSystemSynchronizedGroups = (
+                C032F16C2F578F900085554A /* EtherBar */,
+            );
+            name = EtherBar;
+            packageProductDependencies = (
+            );
+            productName = EtherBar;
+            productReference = C032F16A2F578F900085554A /* EtherBar.app */;
+            productType = "com.apple.product-type.application";
+        };
+        C032F1762F578F910085554A /* EtherBarTests */ = {
+            isa = PBXNativeTarget;
+            buildConfigurationList = C032F18E2F578F910085554A /* Build configuration list for PBXNativeTarget "EtherBarTests" */;
+            buildPhases = (
+                C032F1732F578F910085554A /* Sources */,
+                C032F1742F578F910085554A /* Frameworks */,
+                C032F1752F578F910085554A /* Resources */,
+            );
+            buildRules = (
+            );
+            dependencies = (
+                C032F1792F578F910085554A /* PBXTargetDependency */,
+            );
+            fileSystemSynchronizedGroups = (
+                C032F17A2F578F910085554A /* EtherBarTests */,
+            );
+            name = EtherBarTests;
+            packageProductDependencies = (
+            );
+            productName = EtherBarTests;
+            productReference = C032F1772F578F910085554A /* EtherBarTests.xctest */;
+            productType = "com.apple.product-type.bundle.unit-test";
+        };
+        C032F1802F578F910085554A /* EtherBarUITests */ = {
+            isa = PBXNativeTarget;
+            buildConfigurationList = C032F1912F578F910085554A /* Build configuration list for PBXNativeTarget "EtherBarUITests" */;
+            buildPhases = (
+                C032F17D2F578F910085554A /* Sources */,
+                C032F17E2F578F910085554A /* Frameworks */,
+                C032F17F2F578F910085554A /* Resources */,
+            );
+            buildRules = (
+            );
+            dependencies = (
+                C032F1832F578F910085554A /* PBXTargetDependency */,
+            );
+            fileSystemSynchronizedGroups = (
+                C032F1842F578F910085554A /* EtherBarUITests */,
+            );
+            name = EtherBarUITests;
+            packageProductDependencies = (
+            );
+            productName = EtherBarUITests;
+            productReference = C032F1812F578F910085554A /* EtherBarUITests.xctest */;
+            productType = "com.apple.product-type.bundle.ui-testing";
+        };
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		C032F1622F578F900085554A /* Project object */ = {
-			isa = PBXProject;
-			attributes = {
-				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2630;
-				LastUpgradeCheck = 2630;
-				TargetAttributes = {
-					C032F1692F578F900085554A = {
-						CreatedOnToolsVersion = 26.3;
-					};
-					C032F1762F578F910085554A = {
-						CreatedOnToolsVersion = 26.3;
-						TestTargetID = C032F1692F578F900085554A;
-					};
-					C032F1802F578F910085554A = {
-						CreatedOnToolsVersion = 26.3;
-						TestTargetID = C032F1692F578F900085554A;
-					};
-				};
-			};
-			buildConfigurationList = C032F1652F578F900085554A /* Build configuration list for PBXProject "EtherBar" */;
-			developmentRegion = en;
-			hasScannedForEncodings = 0;
-			knownRegions = (
-				en,
-				Base,
-			);
-			mainGroup = C032F1612F578F900085554A;
-			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
-			productRefGroup = C032F16B2F578F900085554A /* Products */;
-			projectDirPath = "";
-			projectRoot = "";
-			targets = (
-				C032F1692F578F900085554A /* EtherBar */,
-				C032F1762F578F910085554A /* EtherBarTests */,
-				C032F1802F578F910085554A /* EtherBarUITests */,
-			);
-		};
+        C032F1622F578F900085554A /* Project object */ = {
+            isa = PBXProject;
+            attributes = {
+                BuildIndependentTargetsInParallel = 1;
+                LastSwiftUpdateCheck = 2630;
+                LastUpgradeCheck = 2630;
+                TargetAttributes = {
+                    C032F1692F578F900085554A = {
+                        CreatedOnToolsVersion = 26.3;
+                    };
+                    C032F1762F578F910085554A = {
+                        CreatedOnToolsVersion = 26.3;
+                        TestTargetID = C032F1692F578F900085554A;
+                    };
+                    C032F1802F578F910085554A = {
+                        CreatedOnToolsVersion = 26.3;
+                        TestTargetID = C032F1692F578F900085554A;
+                    };
+                };
+            };
+            buildConfigurationList = C032F1652F578F900085554A /* Build configuration list for PBXProject "EtherBar" */;
+            developmentRegion = en;
+            hasScannedForEncodings = 0;
+            knownRegions = (
+                en,
+                Base,
+            );
+            mainGroup = C032F1612F578F900085554A;
+            minimizedProjectReferenceProxies = 1;
+            preferredProjectObjectVersion = 77;
+            productRefGroup = C032F16B2F578F900085554A /* Products */;
+            projectDirPath = "";
+            projectRoot = "";
+            targets = (
+                C032F1692F578F900085554A /* EtherBar */,
+                C032F1762F578F910085554A /* EtherBarTests */,
+                C032F1802F578F910085554A /* EtherBarUITests */,
+            );
+        };
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		C032F1682F578F900085554A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C032F1752F578F910085554A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C032F17F2F578F910085554A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
+        C032F1682F578F900085554A /* Resources */ = {
+            isa = PBXResourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        C032F1752F578F910085554A /* Resources */ = {
+            isa = PBXResourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        C032F17F2F578F910085554A /* Resources */ = {
+            isa = PBXResourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		C032F1662F578F900085554A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C032F1732F578F910085554A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C032F17D2F578F910085554A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
+        C032F1662F578F900085554A /* Sources */ = {
+            isa = PBXSourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        C032F1732F578F910085554A /* Sources */ = {
+            isa = PBXSourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        C032F17D2F578F910085554A /* Sources */ = {
+            isa = PBXSourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C032F1792F578F910085554A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C032F1692F578F900085554A /* EtherBar */;
-			targetProxy = C032F1782F578F910085554A /* PBXContainerItemProxy */;
-		};
-		C032F1832F578F910085554A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C032F1692F578F900085554A /* EtherBar */;
-			targetProxy = C032F1822F578F910085554A /* PBXContainerItemProxy */;
-		};
+        C032F1792F578F910085554A /* PBXTargetDependency */ = {
+            isa = PBXTargetDependency;
+            target = C032F1692F578F900085554A /* EtherBar */;
+            targetProxy = C032F1782F578F910085554A /* PBXContainerItemProxy */;
+        };
+        C032F1832F578F910085554A /* PBXTargetDependency */ = {
+            isa = PBXTargetDependency;
+            target = C032F1692F578F900085554A /* EtherBar */;
+            targetProxy = C032F1822F578F910085554A /* PBXContainerItemProxy */;
+        };
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		C032F1892F578F910085554A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = G3772SL79R;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 26.2;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-			};
-			name = Debug;
-		};
-		C032F18A2F578F910085554A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = G3772SL79R;
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 26.2;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				SDKROOT = macosx;
-				SWIFT_COMPILATION_MODE = wholemodule;
-			};
-			name = Release;
-		};
-		C032F18C2F578F910085554A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = EtherBar/EtherBar.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = G3772SL79R;
-				ENABLE_APP_SANDBOX = NO;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Kapoor.EtherBar;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				REGISTER_APP_GROUPS = YES;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		C032F18D2F578F910085554A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = EtherBar/EtherBar.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = G3772SL79R;
-				ENABLE_APP_SANDBOX = NO;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Kapoor.EtherBar;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				REGISTER_APP_GROUPS = YES;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		C032F18F2F578F910085554A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = G3772SL79R;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 26.2;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Kapoor.EtherBarTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EtherBar.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/EtherBar";
-			};
-			name = Debug;
-		};
-		C032F1902F578F910085554A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = G3772SL79R;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 26.2;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Kapoor.EtherBarTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EtherBar.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/EtherBar";
-			};
-			name = Release;
-		};
-		C032F1922F578F910085554A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = G3772SL79R;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Kapoor.EtherBarUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = EtherBar;
-			};
-			name = Debug;
-		};
-		C032F1932F578F910085554A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = G3772SL79R;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Kapoor.EtherBarUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = EtherBar;
-			};
-			name = Release;
-		};
+        C032F1892F578F910085554A /* Debug */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                ALWAYS_SEARCH_USER_PATHS = NO;
+                ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+                CLANG_ANALYZER_NONNULL = YES;
+                CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+                CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+                CLANG_ENABLE_MODULES = YES;
+                CLANG_ENABLE_OBJC_ARC = YES;
+                CLANG_ENABLE_OBJC_WEAK = YES;
+                CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+                CLANG_WARN_BOOL_CONVERSION = YES;
+                CLANG_WARN_COMMA = YES;
+                CLANG_WARN_CONSTANT_CONVERSION = YES;
+                CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+                CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+                CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+                CLANG_WARN_EMPTY_BODY = YES;
+                CLANG_WARN_ENUM_CONVERSION = YES;
+                CLANG_WARN_INFINITE_RECURSION = YES;
+                CLANG_WARN_INT_CONVERSION = YES;
+                CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+                CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+                CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+                CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+                CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+                CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+                CLANG_WARN_STRICT_PROTOTYPES = YES;
+                CLANG_WARN_SUSPICIOUS_MOVE = YES;
+                CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+                CLANG_WARN_UNREACHABLE_CODE = YES;
+                CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+                COPY_PHASE_STRIP = NO;
+                DEBUG_INFORMATION_FORMAT = dwarf;
+                DEVELOPMENT_TEAM = G3772SL79R;
+                ENABLE_STRICT_OBJC_MSGSEND = YES;
+                ENABLE_TESTABILITY = YES;
+                ENABLE_USER_SCRIPT_SANDBOXING = YES;
+                GCC_C_LANGUAGE_STANDARD = gnu17;
+                GCC_DYNAMIC_NO_PIC = NO;
+                GCC_NO_COMMON_BLOCKS = YES;
+                GCC_OPTIMIZATION_LEVEL = 0;
+                GCC_PREPROCESSOR_DEFINITIONS = (
+                    "DEBUG=1",
+                    "$(inherited)",
+                );
+                GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+                GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+                GCC_WARN_UNDECLARED_SELECTOR = YES;
+                GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+                GCC_WARN_UNUSED_FUNCTION = YES;
+                GCC_WARN_UNUSED_VARIABLE = YES;
+                LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+                MACOSX_DEPLOYMENT_TARGET = 26.2;
+                MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+                MTL_FAST_MATH = YES;
+                ONLY_ACTIVE_ARCH = YES;
+                SDKROOT = macosx;
+                SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+                SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+            };
+            name = Debug;
+        };
+        C032F18A2F578F910085554A /* Release */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                ALWAYS_SEARCH_USER_PATHS = NO;
+                ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+                CLANG_ANALYZER_NONNULL = YES;
+                CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+                CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+                CLANG_ENABLE_MODULES = YES;
+                CLANG_ENABLE_OBJC_ARC = YES;
+                CLANG_ENABLE_OBJC_WEAK = YES;
+                CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+                CLANG_WARN_BOOL_CONVERSION = YES;
+                CLANG_WARN_COMMA = YES;
+                CLANG_WARN_CONSTANT_CONVERSION = YES;
+                CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+                CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+                CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+                CLANG_WARN_EMPTY_BODY = YES;
+                CLANG_WARN_ENUM_CONVERSION = YES;
+                CLANG_WARN_INFINITE_RECURSION = YES;
+                CLANG_WARN_INT_CONVERSION = YES;
+                CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+                CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+                CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+                CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+                CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+                CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+                CLANG_WARN_STRICT_PROTOTYPES = YES;
+                CLANG_WARN_SUSPICIOUS_MOVE = YES;
+                CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+                CLANG_WARN_UNREACHABLE_CODE = YES;
+                CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+                COPY_PHASE_STRIP = NO;
+                DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+                DEVELOPMENT_TEAM = G3772SL79R;
+                ENABLE_NS_ASSERTIONS = NO;
+                ENABLE_STRICT_OBJC_MSGSEND = YES;
+                ENABLE_USER_SCRIPT_SANDBOXING = YES;
+                GCC_C_LANGUAGE_STANDARD = gnu17;
+                GCC_NO_COMMON_BLOCKS = YES;
+                GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+                GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+                GCC_WARN_UNDECLARED_SELECTOR = YES;
+                GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+                GCC_WARN_UNUSED_FUNCTION = YES;
+                GCC_WARN_UNUSED_VARIABLE = YES;
+                LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+                MACOSX_DEPLOYMENT_TARGET = 26.2;
+                MTL_ENABLE_DEBUG_INFO = NO;
+                MTL_FAST_MATH = YES;
+                SDKROOT = macosx;
+                SWIFT_COMPILATION_MODE = wholemodule;
+            };
+            name = Release;
+        };
+        C032F18C2F578F910085554A /* Debug */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+                ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+                CODE_SIGN_ENTITLEMENTS = EtherBar/EtherBar.entitlements;
+                CODE_SIGN_STYLE = Automatic;
+                COMBINE_HIDPI_IMAGES = YES;
+                CURRENT_PROJECT_VERSION = 1;
+                DEVELOPMENT_TEAM = G3772SL79R;
+                ENABLE_APP_SANDBOX = NO;
+                ENABLE_HARDENED_RUNTIME = YES;
+                ENABLE_PREVIEWS = YES;
+                GENERATE_INFOPLIST_FILE = YES;
+                INFOPLIST_KEY_NSHumanReadableCopyright = "";
+                LD_RUNPATH_SEARCH_PATHS = (
+                    "$(inherited)",
+                    "@executable_path/../Frameworks",
+                );
+                MARKETING_VERSION = 1.0;
+                PRODUCT_BUNDLE_IDENTIFIER = Kapoor.EtherBar;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                REGISTER_APP_GROUPS = YES;
+                STRING_CATALOG_GENERATE_SYMBOLS = YES;
+                SWIFT_APPROACHABLE_CONCURRENCY = YES;
+                SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+                SWIFT_EMIT_LOC_STRINGS = YES;
+                SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+                SWIFT_VERSION = 5.0;
+            };
+            name = Debug;
+        };
+        C032F18D2F578F910085554A /* Release */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+                ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+                CODE_SIGN_ENTITLEMENTS = EtherBar/EtherBar.entitlements;
+                CODE_SIGN_STYLE = Automatic;
+                COMBINE_HIDPI_IMAGES = YES;
+                CURRENT_PROJECT_VERSION = 1;
+                DEVELOPMENT_TEAM = G3772SL79R;
+                ENABLE_APP_SANDBOX = NO;
+                ENABLE_HARDENED_RUNTIME = YES;
+                ENABLE_PREVIEWS = YES;
+                GENERATE_INFOPLIST_FILE = YES;
+                INFOPLIST_KEY_LSUIElement = YES;
+                INFOPLIST_KEY_NSHumanReadableCopyright = "";
+                LD_RUNPATH_SEARCH_PATHS = (
+                    "$(inherited)",
+                    "@executable_path/../Frameworks",
+                );
+                MARKETING_VERSION = 1.0;
+                PRODUCT_BUNDLE_IDENTIFIER = Kapoor.EtherBar;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                REGISTER_APP_GROUPS = YES;
+                STRING_CATALOG_GENERATE_SYMBOLS = YES;
+                SWIFT_APPROACHABLE_CONCURRENCY = YES;
+                SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+                SWIFT_EMIT_LOC_STRINGS = YES;
+                SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+                SWIFT_VERSION = 5.0;
+            };
+            name = Release;
+        };
+        C032F18F2F578F910085554A /* Debug */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                BUNDLE_LOADER = "$(TEST_HOST)";
+                CODE_SIGN_STYLE = Automatic;
+                CURRENT_PROJECT_VERSION = 1;
+                DEVELOPMENT_TEAM = G3772SL79R;
+                GENERATE_INFOPLIST_FILE = YES;
+                MACOSX_DEPLOYMENT_TARGET = 26.2;
+                MARKETING_VERSION = 1.0;
+                PRODUCT_BUNDLE_IDENTIFIER = Kapoor.EtherBarTests;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                STRING_CATALOG_GENERATE_SYMBOLS = NO;
+                SWIFT_APPROACHABLE_CONCURRENCY = YES;
+                SWIFT_EMIT_LOC_STRINGS = NO;
+                SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+                SWIFT_VERSION = 5.0;
+                TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EtherBar.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/EtherBar";
+            };
+            name = Debug;
+        };
+        C032F1902F578F910085554A /* Release */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                BUNDLE_LOADER = "$(TEST_HOST)";
+                CODE_SIGN_STYLE = Automatic;
+                CURRENT_PROJECT_VERSION = 1;
+                DEVELOPMENT_TEAM = G3772SL79R;
+                GENERATE_INFOPLIST_FILE = YES;
+                MACOSX_DEPLOYMENT_TARGET = 26.2;
+                MARKETING_VERSION = 1.0;
+                PRODUCT_BUNDLE_IDENTIFIER = Kapoor.EtherBarTests;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                STRING_CATALOG_GENERATE_SYMBOLS = NO;
+                SWIFT_APPROACHABLE_CONCURRENCY = YES;
+                SWIFT_EMIT_LOC_STRINGS = NO;
+                SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+                SWIFT_VERSION = 5.0;
+                TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EtherBar.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/EtherBar";
+            };
+            name = Release;
+        };
+        C032F1922F578F910085554A /* Debug */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                CODE_SIGN_STYLE = Automatic;
+                CURRENT_PROJECT_VERSION = 1;
+                DEVELOPMENT_TEAM = G3772SL79R;
+                GENERATE_INFOPLIST_FILE = YES;
+                MARKETING_VERSION = 1.0;
+                PRODUCT_BUNDLE_IDENTIFIER = Kapoor.EtherBarUITests;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                STRING_CATALOG_GENERATE_SYMBOLS = NO;
+                SWIFT_APPROACHABLE_CONCURRENCY = YES;
+                SWIFT_EMIT_LOC_STRINGS = NO;
+                SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+                SWIFT_VERSION = 5.0;
+                TEST_TARGET_NAME = EtherBar;
+            };
+            name = Debug;
+        };
+        C032F1932F578F910085554A /* Release */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                CODE_SIGN_STYLE = Automatic;
+                CURRENT_PROJECT_VERSION = 1;
+                DEVELOPMENT_TEAM = G3772SL79R;
+                GENERATE_INFOPLIST_FILE = YES;
+                MARKETING_VERSION = 1.0;
+                PRODUCT_BUNDLE_IDENTIFIER = Kapoor.EtherBarUITests;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                STRING_CATALOG_GENERATE_SYMBOLS = NO;
+                SWIFT_APPROACHABLE_CONCURRENCY = YES;
+                SWIFT_EMIT_LOC_STRINGS = NO;
+                SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+                SWIFT_VERSION = 5.0;
+                TEST_TARGET_NAME = EtherBar;
+            };
+            name = Release;
+        };
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C032F1652F578F900085554A /* Build configuration list for PBXProject "EtherBar" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C032F1892F578F910085554A /* Debug */,
-				C032F18A2F578F910085554A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C032F18B2F578F910085554A /* Build configuration list for PBXNativeTarget "EtherBar" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C032F18C2F578F910085554A /* Debug */,
-				C032F18D2F578F910085554A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C032F18E2F578F910085554A /* Build configuration list for PBXNativeTarget "EtherBarTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C032F18F2F578F910085554A /* Debug */,
-				C032F1902F578F910085554A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C032F1912F578F910085554A /* Build configuration list for PBXNativeTarget "EtherBarUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C032F1922F578F910085554A /* Debug */,
-				C032F1932F578F910085554A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
+        C032F1652F578F900085554A /* Build configuration list for PBXProject "EtherBar" */ = {
+            isa = XCConfigurationList;
+            buildConfigurations = (
+                C032F1892F578F910085554A /* Debug */,
+                C032F18A2F578F910085554A /* Release */,
+            );
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Release;
+        };
+        C032F18B2F578F910085554A /* Build configuration list for PBXNativeTarget "EtherBar" */ = {
+            isa = XCConfigurationList;
+            buildConfigurations = (
+                C032F18C2F578F910085554A /* Debug */,
+                C032F18D2F578F910085554A /* Release */,
+            );
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Release;
+        };
+        C032F18E2F578F910085554A /* Build configuration list for PBXNativeTarget "EtherBarTests" */ = {
+            isa = XCConfigurationList;
+            buildConfigurations = (
+                C032F18F2F578F910085554A /* Debug */,
+                C032F1902F578F910085554A /* Release */,
+            );
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Release;
+        };
+        C032F1912F578F910085554A /* Build configuration list for PBXNativeTarget "EtherBarUITests" */ = {
+            isa = XCConfigurationList;
+            buildConfigurations = (
+                C032F1922F578F910085554A /* Debug */,
+                C032F1932F578F910085554A /* Release */,
+            );
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Release;
+        };
 /* End XCConfigurationList section */
-	};
-	rootObject = C032F1622F578F900085554A /* Project object */;
+    };
+    rootObject = C032F1622F578F900085554A /* Project object */;
 }
