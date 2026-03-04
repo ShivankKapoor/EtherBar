@@ -37,7 +37,7 @@ A lightweight macOS menu bar app that monitors your Ethernet connection and netw
 Requirements: Xcode 16+, macOS 13+
 
 ```bash
-git clone https://github.com/yourname/EtherBar.git
+git clone https://github.com/shivankkapoor/EtherBar.git
 cd EtherBar
 open EtherBar.xcodeproj
 ```
@@ -62,6 +62,10 @@ EtherBar requires no special permissions beyond network access. It uses:
 - `/dev/bpf*` or `/proc/net` equivalents — traffic sampling via system APIs
 
 No data ever leaves your machine.
+
+## Contributing
+
+Pull requests are welcome! Please open an issue first for major changes.
 
 ## Credits
 
