@@ -25,7 +25,7 @@ struct EtherBarApp: App {
     var wifiRate: Double = 0
 }
 
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     var statusItem: NSStatusItem?
     var networkMonitor = NetworkMonitor()
     let trafficMonitor = TrafficMonitor()
@@ -66,6 +66,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit EtherBar", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
+        menu.delegate = self
         statusItem?.menu = menu
 
         // Resolve interface names on background thread, then start retained timer
@@ -85,6 +86,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         timer.setEventHandler { [weak self] in self?.refreshInBackground() }
         timer.resume()
         bgTimer = timer // retain so it isn't released
+    }
+
+    // MARK: - NSMenuDelegate
+
+    func menuWillOpen(_ menu: NSMenu) {
+        NSApp.activate(ignoringOtherApps: true)
     }
 
     // MARK: - Interface Resolution
@@ -212,7 +219,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 struct WiFiToggleView: View {
     let state: AppState
     let onToggle: () -> Void
-    @State private var optimisticState: Bool = false
+    @State private var optimisticState: Bool? = nil
+
+    private var displayState: Bool {
+        optimisticState ?? state.wifiEnabled
+    }
 
     var body: some View {
         HStack {
@@ -224,7 +235,7 @@ struct WiFiToggleView: View {
                 .font(.system(size: 13))
             Spacer()
             Toggle("", isOn: Binding(
-                get: { optimisticState },
+                get: { displayState },
                 set: { newValue in
                     optimisticState = newValue
                     onToggle()
@@ -237,8 +248,10 @@ struct WiFiToggleView: View {
         .padding(.horizontal, 14)
         .frame(height: 28)
         .contentShape(Rectangle())
-        .onAppear { optimisticState = state.wifiEnabled }
-        .onChange(of: state.wifiEnabled) { _, newValue in optimisticState = newValue }
+        .onChange(of: state.wifiEnabled) { _, newValue in
+            optimisticState = nil // let real state take over once confirmed
+        }
+        .environment(\.controlActiveState, .active)
     }
 }
 

@@ -14,9 +14,9 @@ A lightweight macOS menu bar app that monitors your Ethernet connection and netw
 
 ## Screenshots
 
-<img width="228" alt="EtherBar - Ethernet connected" src="https://github.com/user-attachments/assets/90a80819-d94e-4b44-84a6-7b33edaf6cae" />
-<img width="240" alt="EtherBar - Traffic view" src="https://github.com/user-attachments/assets/2bf46ef0-ea4a-4965-be7a-085462b351c7" />
-<img width="235" alt="EtherBar - Wi-Fi toggle" src="https://github.com/user-attachments/assets/2ac3ee4e-4c13-4f3d-8d34-7810b470eec9" />
+<img width="232" height="226" alt="Image" src="https://github.com/user-attachments/assets/d79be66b-c6c8-4197-b967-decf7f1558ee" />
+<img width="232" height="188" alt="Image" src="https://github.com/user-attachments/assets/3f8330fa-5e92-40a1-832f-ed611c90f2c0" />
+<img width="232" height="188" alt="Image" src="https://github.com/user-attachments/assets/a66a2a36-cec8-4821-b137-d294f4890a98" />
 
 ## Installation
 
