@@ -14,9 +14,9 @@ A lightweight macOS menu bar app that monitors your Ethernet connection and netw
 
 ## Screenshots
 
-<img width="232" height="226" alt="Image" src="https://github.com/user-attachments/assets/d79be66b-c6c8-4197-b967-decf7f1558ee" />
-<img width="232" height="188" alt="Image" src="https://github.com/user-attachments/assets/3f8330fa-5e92-40a1-832f-ed611c90f2c0" />
-<img width="232" height="188" alt="Image" src="https://github.com/user-attachments/assets/a66a2a36-cec8-4821-b137-d294f4890a98" />
+<img width="223" height="218" alt="Image" src="https://github.com/user-attachments/assets/4043dd5d-5052-4ff7-be2e-399aecef3a00" />
+<img width="223" height="185" alt="Image" src="https://github.com/user-attachments/assets/94c539b6-3dba-4d0b-b76c-f33697356cb7" />
+<img width="223" height="185" alt="Image" src="https://github.com/user-attachments/assets/5244a8fa-4de4-48ef-81d8-34f2e62a7ab6" />
 
 ## Installation
 

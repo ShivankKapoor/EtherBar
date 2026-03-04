@@ -268,10 +268,19 @@ struct TrafficBarView: View {
     private var wifiPercent: Double { total > 0 ? state.wifiRate / total : 0 }
 
     private func rateLabel(_ bps: Double) -> String {
-        let mbps = bps * 8 / 1_000_000
-        if mbps < 0.1 { return "0 Mbps" }
-        if mbps < 10  { return String(format: "%.1f Mbps", mbps) }
-        return String(format: "%.0f Mbps", mbps)
+        let bits = bps * 8
+        if bits < 1_000 {
+            return "0 Kbps"
+        } else if bits < 1_000_000 {
+            let kbps = bits / 1_000
+            return kbps < 10 ? String(format: "%.1f Kbps", kbps) : String(format: "%.0f Kbps", kbps)
+        } else if bits < 1_000_000_000 {
+            let mbps = bits / 1_000_000
+            return mbps < 10 ? String(format: "%.1f Mbps", mbps) : String(format: "%.0f Mbps", mbps)
+        } else {
+            let gbps = bits / 1_000_000_000
+            return gbps < 10 ? String(format: "%.2f Gbps", gbps) : String(format: "%.1f Gbps", gbps)
+        }
     }
 
     var body: some View {
