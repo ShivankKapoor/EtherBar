@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "ethernet.png",
+      "filename" : "ethernet_grey.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "ethernet@2x.png",
+      "filename" : "ethernet_grey@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "ethernet@3x.png",
+      "filename" : "ethernet_grey@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
