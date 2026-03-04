@@ -25,7 +25,7 @@ struct EtherBarApp: App {
     var wifiRate: Double = 0
 }
 
-class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate {
     var statusItem: NSStatusItem?
     var networkMonitor = NetworkMonitor()
     let trafficMonitor = TrafficMonitor()
@@ -66,7 +66,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit EtherBar", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
-        menu.delegate = self
         statusItem?.menu = menu
 
         // Resolve interface names on background thread, then start retained timer
@@ -86,12 +85,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         timer.setEventHandler { [weak self] in self?.refreshInBackground() }
         timer.resume()
         bgTimer = timer // retain so it isn't released
-    }
-
-    // MARK: - NSMenuDelegate
-
-    func menuWillOpen(_ menu: NSMenu) {
-        NSApp.activate(ignoringOtherApps: true)
     }
 
     // MARK: - Interface Resolution
