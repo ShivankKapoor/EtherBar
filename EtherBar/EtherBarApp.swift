@@ -7,7 +7,6 @@
 
 import SwiftUI
 import AppKit
-import CoreWLAN
 
 @main
 struct EtherBarApp: App {
@@ -34,15 +33,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(ethernetMenuItem)
         menu.addItem(NSMenuItem.separator())
 
-        // WiFi toggle row with SwiftUI toggle view
         wifiToggleItem = NSMenuItem()
         let wifiView = NSHostingView(rootView: WiFiToggleView(isOn: isWiFiEnabled(), onToggle: { [weak self] in
             self?.toggleWiFi()
         }))
         wifiView.frame = NSRect(x: 0, y: 0, width: 200, height: 28)
         wifiToggleItem.view = wifiView
-
         menu.addItem(wifiToggleItem)
+
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit EtherBar", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
         statusItem?.menu = menu
@@ -57,7 +55,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func checkForChanges() {
         let ethernetState = networkMonitor.isEthernetConnected
         let wifiState = isWiFiEnabled()
-
         if ethernetState != lastEthernetState || wifiState != lastWifiState {
             lastEthernetState = ethernetState
             lastWifiState = wifiState
@@ -66,18 +63,35 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func isWiFiEnabled() -> Bool {
-        return CWWiFiClient.shared().interface()?.powerOn() ?? false
+        // Use en0 directly — networksetup -listallhardwareports can miss Wi-Fi when it's off
+        let output = shell("/usr/sbin/networksetup -getairportpower en0")
+        return output.lowercased().contains("on")
     }
 
     func toggleWiFi() {
-        guard let interface = CWWiFiClient.shared().interface() else { return }
-        let current = interface.powerOn()
+        let turningOn = !isWiFiEnabled()
+        let newState = turningOn ? "on" : "off"
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            try? interface.setPower(!current)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self?.shell("/usr/sbin/networksetup -setairportpower en0 \(newState)")
+            // WiFi takes longer to turn on than off — wait accordingly
+            let delay: Double = turningOn ? 3.0 : 0.5
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
                 self?.updateIcon()
             }
         }
+    }
+
+    @discardableResult
+    func shell(_ command: String) -> String {
+        let task = Process()
+        task.launchPath = "/bin/bash"
+        task.arguments = ["-c", command]
+        let pipe = Pipe()
+        task.standardOutput = pipe
+        task.standardError = pipe
+        task.launch()
+        task.waitUntilExit()
+        return String(data: pipe.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8) ?? ""
     }
 
     func updateIcon() {
@@ -94,7 +108,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         button.alphaValue = connected ? 1.0 : 0.4
         ethernetMenuItem.title = connected ? "Ethernet Connected" : "No Ethernet"
 
-        // Refresh the toggle view with current wifi state
         let wifiOn = isWiFiEnabled()
         let wifiView = NSHostingView(rootView: WiFiToggleView(isOn: wifiOn, onToggle: { [weak self] in
             self?.toggleWiFi()
