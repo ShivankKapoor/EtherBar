@@ -227,24 +227,39 @@ struct WiFiToggleView: View {
                 .foregroundStyle(.primary)
                 .font(.system(size: 13))
             Spacer()
-            Toggle("", isOn: Binding(
+            ActiveToggle(isOn: Binding(
                 get: { displayState },
                 set: { newValue in
                     optimisticState = newValue
                     onToggle()
                 }
             ))
-            .toggleStyle(.switch)
-            .labelsHidden()
-            .scaleEffect(0.7, anchor: .trailing)
         }
         .padding(.horizontal, 14)
         .frame(height: 28)
         .contentShape(Rectangle())
         .onChange(of: state.wifiEnabled) { _, newValue in
-            optimisticState = nil // let real state take over once confirmed
+            optimisticState = nil
         }
-        .environment(\.controlActiveState, .active)
+    }
+}
+
+struct ActiveToggle: View {
+    @Binding var isOn: Bool
+
+    var body: some View {
+        ZStack {
+            Capsule()
+                .fill(isOn ? Color.accentColor : Color(nsColor: .tertiaryLabelColor))
+                .frame(width: 36, height: 20)
+            Circle()
+                .fill(.white)
+                .shadow(radius: 1, y: 1)
+                .frame(width: 16, height: 16)
+                .offset(x: isOn ? 8 : -8)
+                .animation(.spring(response: 0.2, dampingFraction: 0.8), value: isOn)
+        }
+        .onTapGesture { isOn.toggle() }
     }
 }
 
