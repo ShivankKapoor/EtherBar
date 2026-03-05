@@ -212,7 +212,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 struct WiFiToggleView: View {
     let state: AppState
     let onToggle: () -> Void
-    @State private var optimisticState: Bool = false
+    @State private var optimisticState: Bool? = nil
+
+    private var displayState: Bool {
+        optimisticState ?? state.wifiEnabled
+    }
 
     var body: some View {
         HStack {
@@ -223,22 +227,39 @@ struct WiFiToggleView: View {
                 .foregroundStyle(.primary)
                 .font(.system(size: 13))
             Spacer()
-            Toggle("", isOn: Binding(
-                get: { optimisticState },
+            ActiveToggle(isOn: Binding(
+                get: { displayState },
                 set: { newValue in
                     optimisticState = newValue
                     onToggle()
                 }
             ))
-            .toggleStyle(.switch)
-            .labelsHidden()
-            .scaleEffect(0.7, anchor: .trailing)
         }
         .padding(.horizontal, 14)
         .frame(height: 28)
         .contentShape(Rectangle())
-        .onAppear { optimisticState = state.wifiEnabled }
-        .onChange(of: state.wifiEnabled) { _, newValue in optimisticState = newValue }
+        .onChange(of: state.wifiEnabled) { _, newValue in
+            optimisticState = nil
+        }
+    }
+}
+
+struct ActiveToggle: View {
+    @Binding var isOn: Bool
+
+    var body: some View {
+        ZStack {
+            Capsule()
+                .fill(isOn ? Color.accentColor : Color(nsColor: .tertiaryLabelColor))
+                .frame(width: 36, height: 20)
+            Circle()
+                .fill(.white)
+                .shadow(radius: 1, y: 1)
+                .frame(width: 16, height: 16)
+                .offset(x: isOn ? 8 : -8)
+                .animation(.spring(response: 0.2, dampingFraction: 0.8), value: isOn)
+        }
+        .onTapGesture { isOn.toggle() }
     }
 }
 
@@ -255,10 +276,19 @@ struct TrafficBarView: View {
     private var wifiPercent: Double { total > 0 ? state.wifiRate / total : 0 }
 
     private func rateLabel(_ bps: Double) -> String {
-        let mbps = bps * 8 / 1_000_000
-        if mbps < 0.1 { return "0 Mbps" }
-        if mbps < 10  { return String(format: "%.1f Mbps", mbps) }
-        return String(format: "%.0f Mbps", mbps)
+        let bits = bps * 8
+        if bits < 1_000 {
+            return "0 Kbps"
+        } else if bits < 1_000_000 {
+            let kbps = bits / 1_000
+            return kbps < 10 ? String(format: "%.1f Kbps", kbps) : String(format: "%.0f Kbps", kbps)
+        } else if bits < 1_000_000_000 {
+            let mbps = bits / 1_000_000
+            return mbps < 10 ? String(format: "%.1f Mbps", mbps) : String(format: "%.0f Mbps", mbps)
+        } else {
+            let gbps = bits / 1_000_000_000
+            return gbps < 10 ? String(format: "%.2f Gbps", gbps) : String(format: "%.1f Gbps", gbps)
+        }
     }
 
     var body: some View {

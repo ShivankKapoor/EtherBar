@@ -12,9 +12,11 @@ A lightweight macOS menu bar app that monitors your Ethernet connection and netw
 - **Wi-Fi toggle** — enable or disable Wi-Fi directly from the menu bar
 - **Zero Dock presence** — lives entirely in the menu bar, no Dock icon
 
-## Screenshot
+## Screenshots
 
-> *(Add a screenshot here)*
+<img width="223" height="218" alt="Image" src="https://github.com/user-attachments/assets/4043dd5d-5052-4ff7-be2e-399aecef3a00" />
+<img width="223" height="185" alt="Image" src="https://github.com/user-attachments/assets/94c539b6-3dba-4d0b-b76c-f33697356cb7" />
+<img width="223" height="185" alt="Image" src="https://github.com/user-attachments/assets/5244a8fa-4de4-48ef-81d8-34f2e62a7ab6" />
 
 ## Installation
 
@@ -37,7 +39,7 @@ A lightweight macOS menu bar app that monitors your Ethernet connection and netw
 Requirements: Xcode 16+, macOS 13+
 
 ```bash
-git clone https://github.com/yourname/EtherBar.git
+git clone https://github.com/shivankkapoor/EtherBar.git
 cd EtherBar
 open EtherBar.xcodeproj
 ```
@@ -62,6 +64,10 @@ EtherBar requires no special permissions beyond network access. It uses:
 - `/dev/bpf*` or `/proc/net` equivalents — traffic sampling via system APIs
 
 No data ever leaves your machine.
+
+## Contributing
+
+Pull requests are welcome! Please open an issue first for major changes.
 
 ## Credits
 
