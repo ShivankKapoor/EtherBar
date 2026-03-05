@@ -8,6 +8,7 @@
 import SwiftUI
 import AppKit
 import Observation
+import SystemConfiguration
 
 @main
 struct EtherBarApp: App {
@@ -90,28 +91,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Interface Resolution
 
     private var wifiInterface: String = ""
-    private var ethernetInterfaces: Set<String> = []
     private var interfacesResolved: Bool = false
 
     func resolveInterfaces() {
-        let output = shell("/usr/sbin/networksetup -listallhardwareports")
-        let lines = output.components(separatedBy: "\n")
-        var i = 0
-        while i < lines.count - 1 {
-            let line = lines[i].trimmingCharacters(in: .whitespaces)
-            let nextLine = lines[i + 1].trimmingCharacters(in: .whitespaces)
-            let device = nextLine.hasPrefix("Device:") ? String(nextLine.dropFirst(7)).trimmingCharacters(in: .whitespaces) : ""
-            if !device.isEmpty {
-                if line.contains("Wi-Fi") {
-                    wifiInterface = device
-                } else if line.lowercased().contains("ethernet")
-                            || line.contains("AX88")
-                            || line.contains("USB")
-                            || line.contains("Thunderbolt") {
-                    ethernetInterfaces.insert(device)
-                }
+        // Only need to identify the Wi-Fi interface; ethernet rate is derived
+        // by summing all en* interfaces that aren't Wi-Fi.
+        guard let ifList = SCNetworkInterfaceCopyAll() as? [SCNetworkInterface] else { return }
+        let wifiType = kSCNetworkInterfaceTypeIEEE80211 as String
+        for iface in ifList {
+            guard let bsdName = SCNetworkInterfaceGetBSDName(iface) as String?,
+                  let ifType  = SCNetworkInterfaceGetInterfaceType(iface) as String? else { continue }
+            if ifType == wifiType {
+                wifiInterface = bsdName
+                break
             }
-            i += 1
         }
     }
 
@@ -132,15 +125,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let rates = trafficMonitor.sample()
 
-        let ethernetRate: Double
-        if ethernetInterfaces.isEmpty {
-            // Fallback: sum all en* that aren't the Wi-Fi interface
-            ethernetRate = rates
-                .filter { $0.key != wifiInterface && $0.key.hasPrefix("en") }
-                .values.reduce(0, +)
-        } else {
-            ethernetRate = ethernetInterfaces.compactMap { rates[$0] }.reduce(0, +)
-        }
+        // Sum all en* interfaces except Wi-Fi — covers built-in, USB, Thunderbolt dongles, etc.
+        let ethernetRate: Double = rates
+            .filter { $0.key.hasPrefix("en") && $0.key != wifiInterface }
+            .values.reduce(0, +)
         let wifiRate = wifiInterface.isEmpty ? 0 : (rates[wifiInterface] ?? 0)
 
         CFRunLoopPerformBlock(CFRunLoopGetMain(), CFRunLoopMode.commonModes.rawValue) { [weak self] in
