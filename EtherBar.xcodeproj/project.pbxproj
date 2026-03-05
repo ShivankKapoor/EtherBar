@@ -6,27 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXContainerItemProxy section */
-		C032F1782F578F910085554A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C032F1622F578F900085554A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C032F1692F578F900085554A;
-			remoteInfo = EtherBar;
-		};
-		C032F1822F578F910085554A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C032F1622F578F900085554A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C032F1692F578F900085554A;
-			remoteInfo = EtherBar;
-		};
-/* End PBXContainerItemProxy section */
+
 
 /* Begin PBXFileReference section */
 		C032F16A2F578F900085554A /* EtherBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EtherBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C032F1772F578F910085554A /* EtherBarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EtherBarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C032F1812F578F910085554A /* EtherBarUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EtherBarUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -35,34 +19,11 @@
 			path = EtherBar;
 			sourceTree = "<group>";
 		};
-		C032F17A2F578F910085554A /* EtherBarTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = EtherBarTests;
-			sourceTree = "<group>";
-		};
-		C032F1842F578F910085554A /* EtherBarUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = EtherBarUITests;
-			sourceTree = "<group>";
-		};
+
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		C032F1672F578F900085554A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C032F1742F578F910085554A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C032F17E2F578F910085554A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -76,8 +37,6 @@
 			isa = PBXGroup;
 			children = (
 				C032F16C2F578F900085554A /* EtherBar */,
-				C032F17A2F578F910085554A /* EtherBarTests */,
-				C032F1842F578F910085554A /* EtherBarUITests */,
 				C032F16B2F578F900085554A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -86,8 +45,6 @@
 			isa = PBXGroup;
 			children = (
 				C032F16A2F578F900085554A /* EtherBar.app */,
-				C032F1772F578F910085554A /* EtherBarTests.xctest */,
-				C032F1812F578F910085554A /* EtherBarUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -117,52 +74,7 @@
 			productReference = C032F16A2F578F900085554A /* EtherBar.app */;
 			productType = "com.apple.product-type.application";
 		};
-		C032F1762F578F910085554A /* EtherBarTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C032F18E2F578F910085554A /* Build configuration list for PBXNativeTarget "EtherBarTests" */;
-			buildPhases = (
-				C032F1732F578F910085554A /* Sources */,
-				C032F1742F578F910085554A /* Frameworks */,
-				C032F1752F578F910085554A /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				C032F1792F578F910085554A /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				C032F17A2F578F910085554A /* EtherBarTests */,
-			);
-			name = EtherBarTests;
-			packageProductDependencies = (
-			);
-			productName = EtherBarTests;
-			productReference = C032F1772F578F910085554A /* EtherBarTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		C032F1802F578F910085554A /* EtherBarUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C032F1912F578F910085554A /* Build configuration list for PBXNativeTarget "EtherBarUITests" */;
-			buildPhases = (
-				C032F17D2F578F910085554A /* Sources */,
-				C032F17E2F578F910085554A /* Frameworks */,
-				C032F17F2F578F910085554A /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				C032F1832F578F910085554A /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				C032F1842F578F910085554A /* EtherBarUITests */,
-			);
-			name = EtherBarUITests;
-			packageProductDependencies = (
-			);
-			productName = EtherBarUITests;
-			productReference = C032F1812F578F910085554A /* EtherBarUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
+
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -175,14 +87,6 @@
 				TargetAttributes = {
 					C032F1692F578F900085554A = {
 						CreatedOnToolsVersion = 26.3;
-					};
-					C032F1762F578F910085554A = {
-						CreatedOnToolsVersion = 26.3;
-						TestTargetID = C032F1692F578F900085554A;
-					};
-					C032F1802F578F910085554A = {
-						CreatedOnToolsVersion = 26.3;
-						TestTargetID = C032F1692F578F900085554A;
 					};
 				};
 			};
@@ -201,28 +105,12 @@
 			projectRoot = "";
 			targets = (
 				C032F1692F578F900085554A /* EtherBar */,
-				C032F1762F578F910085554A /* EtherBarTests */,
-				C032F1802F578F910085554A /* EtherBarUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C032F1682F578F900085554A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C032F1752F578F910085554A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C032F17F2F578F910085554A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -239,34 +127,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C032F1732F578F910085554A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C032F17D2F578F910085554A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		C032F1792F578F910085554A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C032F1692F578F900085554A /* EtherBar */;
-			targetProxy = C032F1782F578F910085554A /* PBXContainerItemProxy */;
-		};
-		C032F1832F578F910085554A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C032F1692F578F900085554A /* EtherBar */;
-			targetProxy = C032F1822F578F910085554A /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
+
 
 /* Begin XCBuildConfiguration section */
 		C032F1892F578F910085554A /* Debug */ = {
@@ -454,86 +317,7 @@
 			};
 			name = Release;
 		};
-		C032F18F2F578F910085554A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = G3772SL79R;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 26.2;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Kapoor.EtherBarTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EtherBar.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/EtherBar";
-			};
-			name = Debug;
-		};
-		C032F1902F578F910085554A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = G3772SL79R;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 26.2;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Kapoor.EtherBarTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EtherBar.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/EtherBar";
-			};
-			name = Release;
-		};
-		C032F1922F578F910085554A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = G3772SL79R;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Kapoor.EtherBarUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = EtherBar;
-			};
-			name = Debug;
-		};
-		C032F1932F578F910085554A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = G3772SL79R;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Kapoor.EtherBarUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = EtherBar;
-			};
-			name = Release;
-		};
+
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -555,24 +339,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C032F18E2F578F910085554A /* Build configuration list for PBXNativeTarget "EtherBarTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C032F18F2F578F910085554A /* Debug */,
-				C032F1902F578F910085554A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C032F1912F578F910085554A /* Build configuration list for PBXNativeTarget "EtherBarUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C032F1922F578F910085554A /* Debug */,
-				C032F1932F578F910085554A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
+
 /* End XCConfigurationList section */
 	};
 	rootObject = C032F1622F578F900085554A /* Project object */;
