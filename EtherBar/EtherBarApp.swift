@@ -153,13 +153,57 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applyIconUpdate(connected: Bool) {
         guard let button = statusItem?.button else { return }
-        if let image = NSImage(named: "ethernet") {
-            let copy = image.copy() as! NSImage
-            copy.isTemplate = true
-            copy.size = NSSize(width: 18, height: 18)
-            button.image = copy
+        let iconSize = NSSize(width: 18, height: 18)
+
+        if connected {
+            if let image = NSImage(named: "ethernet") {
+                let copy = image.copy() as! NSImage
+                copy.isTemplate = true
+                copy.size = iconSize
+                button.image = copy
+            }
+        } else {
+            // Composite: ethernet icon + diagonal slash (upper-left → lower-right),
+            // matching the macOS WiFi disconnected icon style and stroke weight.
+            let disconnectedImage = NSImage(size: iconSize, flipped: false) { rect in
+                guard let ctx = NSGraphicsContext.current?.cgContext else { return false }
+
+                // Draw the base ethernet icon
+                if let src = NSImage(named: "ethernet") {
+                    let copy = src.copy() as! NSImage
+                    copy.size = rect.size
+                    copy.draw(in: rect)
+                }
+
+                let padding: CGFloat = 1.5
+                // \ direction: start upper-left, end lower-right
+                let start = CGPoint(x: padding, y: rect.height - padding)
+                let end   = CGPoint(x: rect.width - padding, y: padding)
+
+                // Cut a clear channel so the slash reads against icon pixels
+                ctx.setBlendMode(.clear)
+                ctx.setLineCap(.round)
+                ctx.setLineWidth(3.5)
+                ctx.move(to: start)
+                ctx.addLine(to: end)
+                ctx.strokePath()
+
+                // Draw the slash line itself
+                ctx.setBlendMode(.normal)
+                ctx.setStrokeColorSpace(CGColorSpaceCreateDeviceRGB())
+                ctx.setStrokeColor(CGColor(red: 0, green: 0, blue: 0, alpha: 1))
+                ctx.setLineWidth(1.75)
+                ctx.move(to: start)
+                ctx.addLine(to: end)
+                ctx.strokePath()
+
+                return true
+            }
+            disconnectedImage.isTemplate = true
+            button.image = disconnectedImage
         }
-        button.alphaValue = connected ? 1.0 : 0.4
+
+        button.alphaValue = 1.0
         ethernetMenuItem.title = connected ? "Ethernet Connected" : "No Ethernet"
     }
 
