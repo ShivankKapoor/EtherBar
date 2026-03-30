@@ -31,6 +31,30 @@ enum ColorChoice: String, CaseIterable, Identifiable {
     var label: String { rawValue.capitalized }
 }
 
+// MARK: - IP Info Display Mode
+
+enum IPInfoDisplayMode: String, CaseIterable {
+    case hidden      = "hidden"
+    case clickToShow = "clickToShow"
+    case alwaysShow  = "alwaysShow"
+
+    var label: String {
+        switch self {
+        case .hidden:      return "Don't Show"
+        case .clickToShow: return "Click to Show"
+        case .alwaysShow:  return "Always Show"
+        }
+    }
+
+    var shortLabel: String {
+        switch self {
+        case .hidden:      return "Off"
+        case .clickToShow: return "Tap"
+        case .alwaysShow:  return "Show"
+        }
+    }
+}
+
 // MARK: - Persistent User Settings
 
 @Observable
@@ -51,9 +75,17 @@ class UserSettings {
             save()
         }
     }
+    var localIPDisplay: IPInfoDisplayMode  { didSet { save() } }
+    var publicIPDisplay: IPInfoDisplayMode { didSet { save() } }
+    var locationDisplay: IPInfoDisplayMode { didSet { save() } }
+    var dnsDisplay: IPInfoDisplayMode      { didSet { save() } }
 
-    private static let ethernetKey = "ethernetBarColor"
-    private static let wifiKey = "wifiBarColor"
+    private static let ethernetKey  = "ethernetBarColor"
+    private static let wifiKey      = "wifiBarColor"
+    private static let localIPKey   = "localIPDisplay"
+    private static let publicIPKey  = "publicIPDisplay"
+    private static let locationKey  = "locationDisplay"
+    private static let dnsKey       = "dnsDisplay"
 
     init() {
         let defaults = UserDefaults.standard
@@ -69,17 +101,29 @@ class UserSettings {
         } else {
             wifiColor = .green
         }
+        localIPDisplay  = IPInfoDisplayMode(rawValue: defaults.string(forKey: Self.localIPKey)  ?? "") ?? .alwaysShow
+        publicIPDisplay = IPInfoDisplayMode(rawValue: defaults.string(forKey: Self.publicIPKey) ?? "") ?? .alwaysShow
+        locationDisplay = IPInfoDisplayMode(rawValue: defaults.string(forKey: Self.locationKey)  ?? "") ?? .alwaysShow
+        dnsDisplay      = IPInfoDisplayMode(rawValue: defaults.string(forKey: Self.dnsKey)       ?? "") ?? .alwaysShow
     }
 
     func save() {
         let defaults = UserDefaults.standard
-        defaults.set(ethernetColor.rawValue, forKey: Self.ethernetKey)
-        defaults.set(wifiColor.rawValue, forKey: Self.wifiKey)
+        defaults.set(ethernetColor.rawValue,  forKey: Self.ethernetKey)
+        defaults.set(wifiColor.rawValue,       forKey: Self.wifiKey)
+        defaults.set(localIPDisplay.rawValue,  forKey: Self.localIPKey)
+        defaults.set(publicIPDisplay.rawValue, forKey: Self.publicIPKey)
+        defaults.set(locationDisplay.rawValue, forKey: Self.locationKey)
+        defaults.set(dnsDisplay.rawValue,      forKey: Self.dnsKey)
     }
 
     func resetToDefaults() {
-        ethernetColor = .blue
-        wifiColor = .green
+        ethernetColor   = .blue
+        wifiColor       = .green
+        localIPDisplay  = .alwaysShow
+        publicIPDisplay = .alwaysShow
+        locationDisplay = .alwaysShow
+        dnsDisplay      = .alwaysShow
     }
 }
 
@@ -102,10 +146,10 @@ class SettingsWindowController {
 
         let settingsView = SettingsView(settings: settings)
         let hostingView = NSHostingView(rootView: settingsView)
-        hostingView.frame = NSRect(x: 0, y: 0, width: 320, height: 230)
+        hostingView.frame = NSRect(x: 0, y: 0, width: 320, height: 440)
 
         let win = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 320, height: 230),
+            contentRect: NSRect(x: 0, y: 0, width: 320, height: 440),
             styleMask: [.titled, .closable],
             backing: .buffered,
             defer: false
@@ -148,6 +192,29 @@ struct SettingsView: View {
                     set: { settings.wifiColor = $0 }
                 )
             )
+
+            Divider()
+
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Network Info")
+                    .font(.subheadline.weight(.medium))
+                IPInfoRowPicker(label: "Local IP", selection: Binding(
+                    get: { settings.localIPDisplay },
+                    set: { settings.localIPDisplay = $0 }
+                ))
+                IPInfoRowPicker(label: "Public IP", selection: Binding(
+                    get: { settings.publicIPDisplay },
+                    set: { settings.publicIPDisplay = $0 }
+                ))
+                IPInfoRowPicker(label: "Location", selection: Binding(
+                    get: { settings.locationDisplay },
+                    set: { settings.locationDisplay = $0 }
+                ))
+                IPInfoRowPicker(label: "DNS", selection: Binding(
+                    get: { settings.dnsDisplay },
+                    set: { settings.dnsDisplay = $0 }
+                ))
+            }
 
             Divider()
 
@@ -209,5 +276,26 @@ struct ColorSwatch: View {
         }
         .contentShape(Circle())
         .accessibilityLabel(choice.label)
+    }
+}
+
+struct IPInfoRowPicker: View {
+    let label: String
+    @Binding var selection: IPInfoDisplayMode
+
+    var body: some View {
+        HStack {
+            Text(label)
+                .font(.system(size: 12))
+                .foregroundStyle(.secondary)
+                .frame(width: 68, alignment: .leading)
+            Picker("", selection: $selection) {
+                ForEach(IPInfoDisplayMode.allCases, id: \.self) { mode in
+                    Text(mode.shortLabel).tag(mode)
+                }
+            }
+            .pickerStyle(.segmented)
+            .labelsHidden()
+        }
     }
 }

@@ -24,6 +24,10 @@ struct EtherBarApp: App {
     var wifiEnabled: Bool = false
     var ethernetRate: Double = 0
     var wifiRate: Double = 0
+    var localIP: String = "—"
+    var publicIP: String = "—"
+    var ipLocation: String = "—"
+    var dns: String = "—"
 }
 
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -40,6 +44,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let ethernetMenuItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
     private var wifiToggleItem = NSMenuItem()
     private var trafficItem = NSMenuItem()
+    private var ipInfoItem = NSMenuItem()
+    private var ipInfoSeparatorBefore = NSMenuItem.separator()
+    private var ipInfoSeparatorAfter = NSMenuItem.separator()
     // Retained so it isn't deallocated after applicationDidFinishLaunching returns
     private var bgTimer: DispatchSourceTimer?
 
@@ -67,7 +74,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         wifiToggleItem.view = wifiView
         menu.addItem(wifiToggleItem)
 
-        menu.addItem(NSMenuItem.separator())
+        menu.addItem(ipInfoSeparatorBefore)
+
+        // IP info — created once, reads from appState directly
+        ipInfoItem = NSMenuItem()
+        let ipInfoView = NSHostingView(rootView: IPInfoView(
+            state: appState,
+            settings: userSettings,
+            onHeightChange: { [weak self] height in
+                guard let self else { return }
+                let visible = height > 0
+                self.ipInfoItem.view?.frame = NSRect(x: 0, y: 0, width: 220, height: height)
+                self.ipInfoItem.isHidden = !visible
+                self.ipInfoSeparatorBefore.isHidden = !visible
+                self.ipInfoSeparatorAfter.isHidden = !visible
+            }
+        ))
+        ipInfoView.frame = NSRect(x: 0, y: 0, width: 220, height: 84)
+        ipInfoItem.view = ipInfoView
+        menu.addItem(ipInfoItem)
+
+        menu.addItem(ipInfoSeparatorAfter)
         let settingsItem = NSMenuItem(title: "Settings...", action: #selector(openSettings), keyEquivalent: ",")
         settingsItem.target = self
         menu.addItem(settingsItem)
@@ -137,12 +164,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             .values.reduce(0, +)
         let wifiRate = wifiInterface.isEmpty ? 0 : (rates[wifiInterface] ?? 0)
 
+        let localIP = getLocalIP()
+        let dns = getDNS()
+
+        // Fetch public IP + location once immediately, then every 60 seconds
+        publicIPRefreshCounter += 1
+        if publicIPRefreshCounter == 1 || publicIPRefreshCounter >= 60 {
+            publicIPRefreshCounter = 1
+            fetchPublicIPInfo()
+        }
+
         CFRunLoopPerformBlock(CFRunLoopGetMain(), CFRunLoopMode.commonModes.rawValue) { [weak self] in
             guard let self else { return }
             self.appState.wifiEnabled = wifiState
             self.appState.ethernetConnected = ethernetState
             self.appState.ethernetRate = ethernetRate
             self.appState.wifiRate = wifiRate
+            self.appState.localIP = localIP
+            self.appState.dns = dns
 
             let rows = (ethernetState ? 1 : 0) + (wifiState ? 1 : 0) + (ethernetState && wifiState ? 1 : 0)
             let height = rows > 0 ? CGFloat(rows * 17 + 12) : 2
@@ -248,6 +287,69 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         task.launch()
         task.waitUntilExit()
         return String(data: pipe.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8) ?? ""
+    }
+
+    // MARK: - IP Helpers
+
+    private var publicIPRefreshCounter: Int = 0
+
+    func getDNS() -> String {
+        guard let store = SCDynamicStoreCreate(nil, "EtherBar" as CFString, nil, nil),
+              let info = SCDynamicStoreCopyValue(store, "State:/Network/Global/DNS" as CFString) as? [String: Any],
+              let servers = info["ServerAddresses"] as? [String],
+              let primary = servers.first else { return "—" }
+        return primary
+    }
+
+    func getLocalIP() -> String {
+        var ifaddr: UnsafeMutablePointer<ifaddrs>?
+        guard getifaddrs(&ifaddr) == 0, let firstAddr = ifaddr else { return "—" }
+        defer { freeifaddrs(ifaddr) }
+        var result = "—"
+        var ptr = firstAddr
+        while true {
+            let flags = Int32(ptr.pointee.ifa_flags)
+            let isUp = (flags & IFF_UP) != 0
+            let isLoopback = (flags & IFF_LOOPBACK) != 0
+            if isUp && !isLoopback,
+               ptr.pointee.ifa_addr.pointee.sa_family == UInt8(AF_INET),
+               let name = ptr.pointee.ifa_name,
+               String(cString: name).hasPrefix("en") {
+                var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+                let addrLen = socklen_t(ptr.pointee.ifa_addr.pointee.sa_len)
+                if getnameinfo(ptr.pointee.ifa_addr, addrLen,
+                               &hostname, socklen_t(hostname.count),
+                               nil, 0, NI_NUMERICHOST) == 0 {
+                    result = String(cString: hostname)
+                    break
+                }
+            }
+            guard let next = ptr.pointee.ifa_next else { break }
+            ptr = next
+        }
+        return result
+    }
+
+    func fetchPublicIPInfo() {
+        guard let url = URL(string: "https://ipinfo.io/json") else { return }
+        let task = URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
+            guard let self, let data else { return }
+            guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else { return }
+            let ip = json["ip"] as? String ?? "—"
+            let city = json["city"] as? String ?? ""
+            let country = json["country"] as? String ?? ""
+            let location: String
+            if city.isEmpty && country.isEmpty {
+                location = "—"
+            } else {
+                location = [city, country].filter { !$0.isEmpty }.joined(separator: ", ")
+            }
+            DispatchQueue.main.async {
+                self.appState.publicIP = ip
+                self.appState.ipLocation = location
+            }
+        }
+        task.resume()
     }
 }
 
@@ -415,6 +517,88 @@ struct PercentSplitRow: View {
                 .font(.system(size: 10, design: .monospaced))
                 .foregroundStyle(.secondary)
                 .frame(width: 72, alignment: .trailing)
+        }
+    }
+}
+
+// MARK: - IP Info View
+
+struct IPInfoView: View {
+    let state: AppState
+    let settings: UserSettings
+    var onHeightChange: (CGFloat) -> Void = { _ in }
+    @State private var revealed: Set<Int> = []
+
+    private var rows: [(label: String, value: String, mode: IPInfoDisplayMode)] {
+        [
+            ("Local IP",  state.localIP,    settings.localIPDisplay),
+            ("Public IP", state.publicIP,   settings.publicIPDisplay),
+            ("Location",  state.ipLocation, settings.locationDisplay),
+            ("DNS",       state.dns,        settings.dnsDisplay),
+        ]
+    }
+
+    private var modeKey: [IPInfoDisplayMode] { rows.map(\.mode) }
+
+    private var visibleCount: Int { rows.filter { $0.mode != .hidden }.count }
+
+    private var height: CGFloat {
+        let n = visibleCount
+        return n > 0 ? CGFloat(n * 19 + 8) : 0
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            ForEach(Array(rows.enumerated()), id: \.offset) { index, row in
+                if row.mode != .hidden {
+                    IPInfoRow(
+                        label: row.label,
+                        value: row.value,
+                        isRevealed: row.mode == .alwaysShow || revealed.contains(index),
+                        onReveal: { revealed.insert(index) },
+                        onHide:   { revealed.remove(index) }
+                    )
+                }
+            }
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, visibleCount > 0 ? 6 : 0)
+        .onAppear { onHeightChange(height) }
+        .onDisappear { revealed = [] }
+        .onChange(of: modeKey) { _, _ in
+            revealed = []
+            onHeightChange(height)
+        }
+    }
+}
+
+struct IPInfoRow: View {
+    let label: String
+    let value: String
+    var isRevealed: Bool = true
+    var onReveal: () -> Void = {}
+    var onHide: () -> Void = {}
+
+    var body: some View {
+        HStack {
+            Text(label)
+                .font(.system(size: 11))
+                .foregroundStyle(.secondary)
+            Spacer()
+            if isRevealed {
+                Text(value)
+                    .font(.system(size: 11, design: .monospaced))
+                    .foregroundStyle(.primary)
+            } else {
+                Text("tap to reveal")
+                    .font(.system(size: 11))
+                    .foregroundStyle(.tertiary)
+                    .italic()
+            }
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            if !isRevealed { onReveal() } else { onHide() }
         }
     }
 }
