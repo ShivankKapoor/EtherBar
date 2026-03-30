@@ -6,11 +6,8 @@
 	objectVersion = 77;
 	objects = {
 
-
-
 /* Begin PBXFileReference section */
 		C032F16A2F578F900085554A /* EtherBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EtherBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
-
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -19,7 +16,6 @@
 			path = EtherBar;
 			sourceTree = "<group>";
 		};
-
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +70,6 @@
 			productReference = C032F16A2F578F900085554A /* EtherBar.app */;
 			productType = "com.apple.product-type.application";
 		};
-
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -128,8 +123,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-
 
 /* Begin XCBuildConfiguration section */
 		C032F1892F578F910085554A /* Debug */ = {
@@ -317,7 +310,6 @@
 			};
 			name = Release;
 		};
-
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -339,7 +331,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-
 /* End XCConfigurationList section */
 	};
 	rootObject = C032F1622F578F900085554A /* Project object */;

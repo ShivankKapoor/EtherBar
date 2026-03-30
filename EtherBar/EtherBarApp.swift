@@ -31,6 +31,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var networkMonitor = NetworkMonitor()
     let trafficMonitor = TrafficMonitor()
     let appState = AppState()
+    let userSettings = UserSettings()
+    private lazy var settingsWindowController = SettingsWindowController(settings: userSettings)
     private var lastEthernetState: Bool? = nil
     private var lastWifiState: Bool? = nil
     private let bgQueue = DispatchQueue(label: "EtherBarBackground", qos: .utility)
@@ -50,7 +52,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         // Traffic view — created once, reads from appState directly
         trafficItem = NSMenuItem()
-        let trafficView = NSHostingView(rootView: TrafficBarView(state: appState))
+        let trafficView = NSHostingView(rootView: TrafficBarView(state: appState, settings: userSettings))
         trafficView.frame = NSRect(x: 0, y: 0, width: 220, height: 80)
         trafficItem.view = trafficView
         menu.addItem(trafficItem)
@@ -65,6 +67,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         wifiToggleItem.view = wifiView
         menu.addItem(wifiToggleItem)
 
+        menu.addItem(NSMenuItem.separator())
+        let settingsItem = NSMenuItem(title: "Settings...", action: #selector(openSettings), keyEquivalent: ",")
+        settingsItem.target = self
+        menu.addItem(settingsItem)
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit EtherBar", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
         statusItem?.menu = menu
@@ -207,6 +213,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         ethernetMenuItem.title = connected ? "Ethernet Connected" : "No Ethernet"
     }
 
+    // MARK: - Settings
+
+    @objc func openSettings() {
+        settingsWindowController.showSettings()
+    }
+
     // MARK: - Wi-Fi Toggle
 
     func toggleWiFi() {
@@ -299,6 +311,7 @@ struct ActiveToggle: View {
 
 struct TrafficBarView: View {
     let state: AppState
+    let settings: UserSettings
 
     private var total: Double { state.ethernetRate + state.wifiRate }
     private var maxRate: Double { max(state.ethernetRate, state.wifiRate, 1) }
@@ -326,13 +339,13 @@ struct TrafficBarView: View {
     var body: some View {
         VStack(spacing: 5) {
             if state.ethernetConnected {
-                UnitTrafficRow(icon: "cable.connector", fraction: ethernetFraction, rate: rateLabel(state.ethernetRate), color: .blue)
+                UnitTrafficRow(icon: "cable.connector", fraction: ethernetFraction, rate: rateLabel(state.ethernetRate), color: settings.ethernetColor.color)
             }
             if state.wifiEnabled {
-                UnitTrafficRow(icon: "wifi", fraction: wifiFraction, rate: rateLabel(state.wifiRate), color: .green)
+                UnitTrafficRow(icon: "wifi", fraction: wifiFraction, rate: rateLabel(state.wifiRate), color: settings.wifiColor.color)
             }
             if state.ethernetConnected && state.wifiEnabled {
-                PercentSplitRow(ethernetPercent: ethernetPercent, wifiPercent: wifiPercent)
+                PercentSplitRow(ethernetPercent: ethernetPercent, wifiPercent: wifiPercent, ethernetColor: settings.ethernetColor.color, wifiColor: settings.wifiColor.color)
             }
         }
         .padding(.horizontal, 14)
@@ -356,7 +369,7 @@ struct UnitTrafficRow: View {
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 3).fill(Color.secondary.opacity(0.15))
                     RoundedRectangle(cornerRadius: 3)
-                        .fill(color.opacity(0.8))
+                        .fill(color)
                         .frame(width: max(4, geo.size.width * fraction))
                         .animation(.easeOut(duration: 0.4), value: fraction)
                 }
@@ -373,6 +386,10 @@ struct UnitTrafficRow: View {
 struct PercentSplitRow: View {
     let ethernetPercent: Double
     let wifiPercent: Double
+    var ethernetColor: Color = .blue
+    var wifiColor: Color = .green
+
+    private var hasTraffic: Bool { ethernetPercent + wifiPercent > 0 }
 
     var body: some View {
         HStack(spacing: 6) {
@@ -382,11 +399,15 @@ struct PercentSplitRow: View {
                 .foregroundStyle(.secondary)
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: 3).fill(Color.green.opacity(0.4))
                     RoundedRectangle(cornerRadius: 3)
-                        .fill(Color.blue.opacity(0.8))
+                        .fill(hasTraffic ? wifiColor : Color.secondary.opacity(0.15))
+                        .animation(.easeOut(duration: 0.4), value: hasTraffic)
+                    RoundedRectangle(cornerRadius: 3)
+                        .fill(ethernetColor)
                         .frame(width: max(0, geo.size.width * ethernetPercent))
+                        .opacity(hasTraffic ? 1 : 0)
                         .animation(.easeOut(duration: 0.4), value: ethernetPercent)
+                        .animation(.easeOut(duration: 0.4), value: hasTraffic)
                 }
             }
             .frame(height: 6)
