@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Observation
+import UniformTypeIdentifiers
 
 // MARK: - Color Choices
 
@@ -32,6 +33,30 @@ enum ColorChoice: String, CaseIterable, Identifiable {
 }
 
 // MARK: - IP Info Display Mode
+
+enum IPInfoField: String, CaseIterable, Codable, Transferable {
+    case localIP  = "localIP"
+    case publicIP = "publicIP"
+    case location = "location"
+    case dns      = "dns"
+
+    var label: String {
+        switch self {
+        case .localIP:  return "Local IP"
+        case .publicIP: return "Public IP"
+        case .location: return "Location"
+        case .dns:      return "DNS"
+        }
+    }
+
+    static var transferRepresentation: some TransferRepresentation {
+        CodableRepresentation(contentType: .ipInfoField)
+    }
+}
+
+extension UTType {
+    static let ipInfoField = UTType(exportedAs: "com.etherbar.ipinfofield")
+}
 
 enum IPInfoDisplayMode: String, CaseIterable {
     case hidden      = "hidden"
@@ -79,6 +104,7 @@ class UserSettings {
     var publicIPDisplay: IPInfoDisplayMode { didSet { save() } }
     var locationDisplay: IPInfoDisplayMode { didSet { save() } }
     var dnsDisplay: IPInfoDisplayMode      { didSet { save() } }
+    var ipInfoOrder: [IPInfoField]          { didSet { save() } }
 
     private static let ethernetKey  = "ethernetBarColor"
     private static let wifiKey      = "wifiBarColor"
@@ -86,6 +112,7 @@ class UserSettings {
     private static let publicIPKey  = "publicIPDisplay"
     private static let locationKey  = "locationDisplay"
     private static let dnsKey       = "dnsDisplay"
+    private static let orderKey     = "ipInfoOrder"
 
     init() {
         let defaults = UserDefaults.standard
@@ -105,6 +132,20 @@ class UserSettings {
         publicIPDisplay = IPInfoDisplayMode(rawValue: defaults.string(forKey: Self.publicIPKey) ?? "") ?? .alwaysShow
         locationDisplay = IPInfoDisplayMode(rawValue: defaults.string(forKey: Self.locationKey)  ?? "") ?? .alwaysShow
         dnsDisplay      = IPInfoDisplayMode(rawValue: defaults.string(forKey: Self.dnsKey)       ?? "") ?? .alwaysShow
+        if let saved = defaults.stringArray(forKey: Self.orderKey),
+           saved.count == IPInfoField.allCases.count,
+           let parsed = Self.parseOrder(saved) {
+            ipInfoOrder = parsed
+        } else {
+            ipInfoOrder = IPInfoField.allCases.map { $0 }
+        }
+    }
+
+    private static func parseOrder(_ raw: [String]) -> [IPInfoField]? {
+        let fields = raw.compactMap { IPInfoField(rawValue: $0) }
+        guard fields.count == IPInfoField.allCases.count,
+              Set(fields).count == fields.count else { return nil }
+        return fields
     }
 
     func save() {
@@ -115,6 +156,7 @@ class UserSettings {
         defaults.set(publicIPDisplay.rawValue, forKey: Self.publicIPKey)
         defaults.set(locationDisplay.rawValue, forKey: Self.locationKey)
         defaults.set(dnsDisplay.rawValue,      forKey: Self.dnsKey)
+        defaults.set(ipInfoOrder.map(\.rawValue), forKey: Self.orderKey)
     }
 
     func resetToDefaults() {
@@ -124,6 +166,7 @@ class UserSettings {
         publicIPDisplay = .alwaysShow
         locationDisplay = .alwaysShow
         dnsDisplay      = .alwaysShow
+        ipInfoOrder     = IPInfoField.allCases.map { $0 }
     }
 }
 
@@ -199,22 +242,24 @@ struct SettingsView: View {
             VStack(alignment: .leading, spacing: 6) {
                 Text("Network Info")
                     .font(.subheadline.weight(.medium))
-                IPInfoRowPicker(label: "Local IP", selection: Binding(
-                    get: { settings.localIPDisplay },
-                    set: { settings.localIPDisplay = $0 }
-                ))
-                IPInfoRowPicker(label: "Public IP", selection: Binding(
-                    get: { settings.publicIPDisplay },
-                    set: { settings.publicIPDisplay = $0 }
-                ))
-                IPInfoRowPicker(label: "Location", selection: Binding(
-                    get: { settings.locationDisplay },
-                    set: { settings.locationDisplay = $0 }
-                ))
-                IPInfoRowPicker(label: "DNS", selection: Binding(
-                    get: { settings.dnsDisplay },
-                    set: { settings.dnsDisplay = $0 }
-                ))
+                ForEach(Array(settings.ipInfoOrder.enumerated()), id: \.element) { index, field in
+                    HStack(spacing: 6) {
+                        Image(systemName: "line.3.horizontal")
+                            .font(.system(size: 10, weight: .medium))
+                            .foregroundStyle(.tertiary)
+                        IPInfoRowPicker(label: field.label, selection: settings.bindingForField(field))
+                    }
+                    .draggable(field)
+                    .dropDestination(for: IPInfoField.self) { items, _ in
+                        guard let dragged = items.first,
+                              let fromIndex = settings.ipInfoOrder.firstIndex(of: dragged),
+                              fromIndex != index else { return false }
+                        var order = settings.ipInfoOrder
+                        order.move(fromOffsets: IndexSet(integer: fromIndex), toOffset: index > fromIndex ? index + 1 : index)
+                        settings.ipInfoOrder = order
+                        return true
+                    }
+                }
             }
 
             Divider()
@@ -289,7 +334,7 @@ struct IPInfoRowPicker: View {
             Text(label)
                 .font(.system(size: 12))
                 .foregroundStyle(.secondary)
-                .frame(width: 68, alignment: .leading)
+                .frame(width: 62, alignment: .leading)
             Picker("", selection: $selection) {
                 ForEach(IPInfoDisplayMode.allCases, id: \.self) { mode in
                     Text(mode.shortLabel).tag(mode)
@@ -297,6 +342,26 @@ struct IPInfoRowPicker: View {
             }
             .pickerStyle(.segmented)
             .labelsHidden()
+        }
+    }
+}
+
+extension UserSettings {
+    func bindingForField(_ field: IPInfoField) -> Binding<IPInfoDisplayMode> {
+        switch field {
+        case .localIP:  return Binding(get: { self.localIPDisplay },  set: { self.localIPDisplay = $0 })
+        case .publicIP: return Binding(get: { self.publicIPDisplay }, set: { self.publicIPDisplay = $0 })
+        case .location: return Binding(get: { self.locationDisplay }, set: { self.locationDisplay = $0 })
+        case .dns:      return Binding(get: { self.dnsDisplay },      set: { self.dnsDisplay = $0 })
+        }
+    }
+
+    func displayMode(for field: IPInfoField) -> IPInfoDisplayMode {
+        switch field {
+        case .localIP:  return localIPDisplay
+        case .publicIP: return publicIPDisplay
+        case .location: return locationDisplay
+        case .dns:      return dnsDisplay
         }
     }
 }

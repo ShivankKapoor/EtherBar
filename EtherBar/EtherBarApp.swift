@@ -361,18 +361,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 extension AppDelegate: NSMenuDelegate {
     func menuWillOpen(_ menu: NSMenu) {
-        let modes = [
-            userSettings.localIPDisplay,
-            userSettings.publicIPDisplay,
-            userSettings.locationDisplay,
-            userSettings.dnsDisplay,
-        ]
-        var visibleCount = modes.filter { $0 != .hidden }.count
-        // If local IP row is visible and both interfaces have different IPs, it expands to 2 rows
-        if userSettings.localIPDisplay != .hidden {
-            let ethIP  = appState.ethernetIP
-            let wifiIP = appState.wifiIP
-            if appState.ethernetConnected && appState.wifiEnabled && ethIP != wifiIP && ethIP != "—" && wifiIP != "—" {
+        var visibleCount = 0
+        for field in userSettings.ipInfoOrder {
+            let mode = userSettings.displayMode(for: field)
+            if mode == .hidden { continue }
+            if field == .localIP {
+                let ethIP  = appState.ethernetIP
+                let wifiIP = appState.wifiIP
+                if appState.ethernetConnected && appState.wifiEnabled && ethIP != wifiIP && ethIP != "—" && wifiIP != "—" {
+                    visibleCount += 2
+                } else {
+                    visibleCount += 1
+                }
+            } else {
                 visibleCount += 1
             }
         }
@@ -561,24 +562,34 @@ struct IPInfoView: View {
     @State private var revealed: Set<Int> = []
 
     private var rows: [(label: String, value: String, mode: IPInfoDisplayMode)] {
-        var result: [(String, String, IPInfoDisplayMode)] = []
+        var fieldRows: [IPInfoField: [(String, String, IPInfoDisplayMode)]] = [:]
+
         let ethIP  = state.ethernetIP
         let wifiIP = state.wifiIP
         let bothConnected = state.ethernetConnected && state.wifiEnabled
         let bothDiffer = bothConnected && ethIP != wifiIP && ethIP != "—" && wifiIP != "—"
         if bothDiffer {
-            result.append(("Ethernet IP", ethIP,  settings.localIPDisplay))
-            result.append(("Wi-Fi IP",    wifiIP, settings.localIPDisplay))
+            fieldRows[.localIP] = [
+                ("Ethernet IP", ethIP,  settings.localIPDisplay),
+                ("Wi-Fi IP",    wifiIP, settings.localIPDisplay),
+            ]
         } else if state.ethernetConnected && ethIP != "—" {
-            result.append(("Local IP", ethIP, settings.localIPDisplay))
+            fieldRows[.localIP] = [("Local IP", ethIP, settings.localIPDisplay)]
         } else if state.wifiEnabled && wifiIP != "—" {
-            result.append(("Local IP", wifiIP, settings.localIPDisplay))
+            fieldRows[.localIP] = [("Local IP", wifiIP, settings.localIPDisplay)]
         } else {
-            result.append(("Local IP", "—", settings.localIPDisplay))
+            fieldRows[.localIP] = [("Local IP", "—", settings.localIPDisplay)]
         }
-        result.append(("Public IP", state.publicIP,   settings.publicIPDisplay))
-        result.append(("Location",  state.ipLocation, settings.locationDisplay))
-        result.append(("DNS",       state.dns,        settings.dnsDisplay))
+        fieldRows[.publicIP] = [("Public IP", state.publicIP,   settings.publicIPDisplay)]
+        fieldRows[.location] = [("Location",  state.ipLocation, settings.locationDisplay)]
+        fieldRows[.dns]      = [("DNS",       state.dns,        settings.dnsDisplay)]
+
+        var result: [(String, String, IPInfoDisplayMode)] = []
+        for field in settings.ipInfoOrder {
+            if let entries = fieldRows[field] {
+                result.append(contentsOf: entries)
+            }
+        }
         return result
     }
 
