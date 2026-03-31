@@ -158,7 +158,8 @@ class SettingsWindowController {
         win.contentView = hostingView
         win.center()
         win.isReleasedWhenClosed = false
-        win.level = .floating
+        win.level = .modalPanel
+        win.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         win.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
         window = win

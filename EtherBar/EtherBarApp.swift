@@ -83,11 +83,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             settings: userSettings,
             onHeightChange: { [weak self] height in
                 guard let self else { return }
-                let visible = height > 0
+                let hasContent = height > 1
+                // Never hide the item itself — macOS suspends SwiftUI updates on
+                // hidden NSMenuItem views, preventing the item from re-appearing.
+                // A 1px frame is invisible; separators control the visual gap.
                 self.ipInfoItem.view?.frame = NSRect(x: 0, y: 0, width: 220, height: height)
-                self.ipInfoItem.isHidden = !visible
-                self.ipInfoSeparatorBefore.isHidden = !visible
-                self.ipInfoSeparatorAfter.isHidden = !visible
+                self.ipInfoSeparatorBefore.isHidden = !hasContent
+                self.ipInfoSeparatorAfter.isHidden = !hasContent
             }
         ))
         ipInfoView.frame = NSRect(x: 0, y: 0, width: 220, height: 84)
@@ -101,6 +103,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit EtherBar", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
         statusItem?.menu = menu
+        menu.delegate = self
 
         // Resolve interface names on background thread, then start retained timer
         bgQueue.async { [weak self] in
@@ -353,6 +356,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 }
 
+// MARK: - Menu Delegate
+
+extension AppDelegate: NSMenuDelegate {
+    func menuWillOpen(_ menu: NSMenu) {
+        let modes = [
+            userSettings.localIPDisplay,
+            userSettings.publicIPDisplay,
+            userSettings.locationDisplay,
+            userSettings.dnsDisplay,
+        ]
+        let visibleCount = modes.filter { $0 != .hidden }.count
+        let height: CGFloat = visibleCount > 0 ? CGFloat(visibleCount * 19 + 8) : 1
+        let hasContent = height > 1
+        ipInfoItem.view?.frame = NSRect(x: 0, y: 0, width: 220, height: height)
+        ipInfoSeparatorBefore.isHidden = !hasContent
+        ipInfoSeparatorAfter.isHidden = !hasContent
+    }
+}
+
 // MARK: - WiFi Toggle View
 
 struct WiFiToggleView: View {
@@ -544,7 +566,7 @@ struct IPInfoView: View {
 
     private var height: CGFloat {
         let n = visibleCount
-        return n > 0 ? CGFloat(n * 19 + 8) : 0
+        return n > 0 ? CGFloat(n * 19 + 8) : 1
     }
 
     var body: some View {
@@ -563,12 +585,17 @@ struct IPInfoView: View {
         }
         .padding(.horizontal, 14)
         .padding(.vertical, visibleCount > 0 ? 6 : 0)
-        .onAppear { onHeightChange(height) }
+        .onAppear { notifyHeight() }
         .onDisappear { revealed = [] }
         .onChange(of: modeKey) { _, _ in
             revealed = []
-            onHeightChange(height)
+            notifyHeight()
         }
+    }
+
+    private func notifyHeight() {
+        let h = height
+        onHeightChange(h)
     }
 }
 
