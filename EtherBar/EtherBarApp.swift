@@ -9,6 +9,7 @@ import SwiftUI
 import AppKit
 import Observation
 import SystemConfiguration
+import CoreWLAN
 
 @main
 struct EtherBarApp: App {
@@ -40,6 +41,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private lazy var settingsWindowController = SettingsWindowController(settings: userSettings)
     private var lastEthernetState: Bool? = nil
     private var lastWifiState: Bool? = nil
+    private var menuIsOpen = false
     private let bgQueue = DispatchQueue(label: "EtherBarBackground", qos: .utility)
 
     private let ethernetMenuItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
@@ -150,17 +152,33 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func refreshInBackground() {
         guard interfacesResolved else { return }
 
-        let ethernetState = networkMonitor.isEthernetConnected
+        // Always sample to keep the rate baseline current — skipping a sample
+        // would corrupt the next rate calculation.
+        let rates = trafficMonitor.sample()
 
-        let wifiState: Bool
-        if wifiInterface.isEmpty {
-            wifiState = false
-        } else {
-            wifiState = shell("/usr/sbin/networksetup -getairportpower \(wifiInterface)")
-                .lowercased().contains("on")
+        // WiFi power via CoreWLAN — property read, no subprocess.
+        let ethernetState = networkMonitor.isEthernetConnected
+        let wifiState: Bool = wifiInterface.isEmpty
+            ? false
+            : (CWWiFiClient.shared().interface(withName: wifiInterface)?.powerOn() ?? false)
+
+        // Update the menu-bar icon when connection state changes.
+        // This must run even when the menu is closed so the icon stays accurate.
+        if ethernetState != lastEthernetState || wifiState != lastWifiState {
+            CFRunLoopPerformBlock(CFRunLoopGetMain(), CFRunLoopMode.commonModes.rawValue) { [weak self] in
+                guard let self else { return }
+                self.lastEthernetState = ethernetState
+                self.lastWifiState = wifiState
+                self.appState.wifiEnabled = wifiState
+                self.appState.ethernetConnected = ethernetState
+                self.applyIconUpdate(connected: ethernetState)
+            }
+            CFRunLoopWakeUp(CFRunLoopGetMain())
         }
 
-        let rates = trafficMonitor.sample()
+        // Skip all further computation and SwiftUI updates while the menu is closed.
+        // The next menuWillOpen dispatches an immediate refresh to show fresh data.
+        guard menuIsOpen else { return }
 
         // Sum all en* interfaces except Wi-Fi — covers built-in, USB, Thunderbolt dongles, etc.
         let ethernetRate: Double = rates
@@ -192,12 +210,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let rows = (ethernetState ? 1 : 0) + (wifiState ? 1 : 0) + (ethernetState && wifiState ? 1 : 0)
             let height = rows > 0 ? CGFloat(rows * 17 + 12) : 2
             self.trafficItem.view?.frame = NSRect(x: 0, y: 0, width: 220, height: height)
-
-            if ethernetState != self.lastEthernetState || wifiState != self.lastWifiState {
-                self.lastEthernetState = ethernetState
-                self.lastWifiState = wifiState
-                self.applyIconUpdate(connected: ethernetState)
-            }
         }
         CFRunLoopWakeUp(CFRunLoopGetMain())
     }
@@ -361,6 +373,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 extension AppDelegate: NSMenuDelegate {
     func menuWillOpen(_ menu: NSMenu) {
+        menuIsOpen = true
+        // Dispatch an immediate refresh so the UI has fresh data before NSMenu measures items.
+        bgQueue.async { [weak self] in self?.refreshInBackground() }
+
         var visibleCount = 0
         for field in userSettings.ipInfoOrder {
             let mode = userSettings.displayMode(for: field)
@@ -382,6 +398,10 @@ extension AppDelegate: NSMenuDelegate {
         ipInfoItem.view?.frame = NSRect(x: 0, y: 0, width: 220, height: height)
         ipInfoSeparatorBefore.isHidden = !hasContent
         ipInfoSeparatorAfter.isHidden = !hasContent
+    }
+
+    func menuDidClose(_ menu: NSMenu) {
+        menuIsOpen = false
     }
 }
 

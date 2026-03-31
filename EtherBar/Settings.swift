@@ -172,7 +172,7 @@ class UserSettings {
 
 // MARK: - Settings Window Controller
 
-class SettingsWindowController {
+class SettingsWindowController: NSObject, NSWindowDelegate {
     private var window: NSWindow?
     private let settings: UserSettings
 
@@ -181,7 +181,7 @@ class SettingsWindowController {
     }
 
     func showSettings() {
-        if let existing = window, existing.isVisible {
+        if let existing = window {
             existing.makeKeyAndOrderFront(nil)
             NSApp.activate(ignoringOtherApps: true)
             return
@@ -201,11 +201,17 @@ class SettingsWindowController {
         win.contentView = hostingView
         win.center()
         win.isReleasedWhenClosed = false
+        win.delegate = self
         win.level = .modalPanel
         win.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         win.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
         window = win
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        window?.contentView = nil
+        window = nil
     }
 }
 
