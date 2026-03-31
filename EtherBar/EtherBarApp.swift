@@ -24,7 +24,8 @@ struct EtherBarApp: App {
     var wifiEnabled: Bool = false
     var ethernetRate: Double = 0
     var wifiRate: Double = 0
-    var localIP: String = "—"
+    var ethernetIP: String = "—"
+    var wifiIP: String = "—"
     var publicIP: String = "—"
     var ipLocation: String = "—"
     var dns: String = "—"
@@ -167,7 +168,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             .values.reduce(0, +)
         let wifiRate = wifiInterface.isEmpty ? 0 : (rates[wifiInterface] ?? 0)
 
-        let localIP = getLocalIP()
+        let ethernetIP = getInterfaceIP(matching: { $0.hasPrefix("en") && $0 != self.wifiInterface })
+        let wifiIP = wifiInterface.isEmpty ? "—" : getInterfaceIP(matching: { $0 == self.wifiInterface })
         let dns = getDNS()
 
         // Fetch public IP + location once immediately, then every 60 seconds
@@ -183,7 +185,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.appState.ethernetConnected = ethernetState
             self.appState.ethernetRate = ethernetRate
             self.appState.wifiRate = wifiRate
-            self.appState.localIP = localIP
+            self.appState.ethernetIP = ethernetIP
+            self.appState.wifiIP = wifiIP
             self.appState.dns = dns
 
             let rows = (ethernetState ? 1 : 0) + (wifiState ? 1 : 0) + (ethernetState && wifiState ? 1 : 0)
@@ -304,11 +307,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return primary
     }
 
-    func getLocalIP() -> String {
+    func getInterfaceIP(matching predicate: (String) -> Bool) -> String {
         var ifaddr: UnsafeMutablePointer<ifaddrs>?
         guard getifaddrs(&ifaddr) == 0, let firstAddr = ifaddr else { return "—" }
         defer { freeifaddrs(ifaddr) }
-        var result = "—"
         var ptr = firstAddr
         while true {
             let flags = Int32(ptr.pointee.ifa_flags)
@@ -317,20 +319,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if isUp && !isLoopback,
                ptr.pointee.ifa_addr.pointee.sa_family == UInt8(AF_INET),
                let name = ptr.pointee.ifa_name,
-               String(cString: name).hasPrefix("en") {
+               predicate(String(cString: name)) {
                 var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
                 let addrLen = socklen_t(ptr.pointee.ifa_addr.pointee.sa_len)
                 if getnameinfo(ptr.pointee.ifa_addr, addrLen,
                                &hostname, socklen_t(hostname.count),
                                nil, 0, NI_NUMERICHOST) == 0 {
-                    result = String(cString: hostname)
-                    break
+                    return String(cString: hostname)
                 }
             }
             guard let next = ptr.pointee.ifa_next else { break }
             ptr = next
         }
-        return result
+        return "—"
     }
 
     func fetchPublicIPInfo() {
@@ -366,7 +367,15 @@ extension AppDelegate: NSMenuDelegate {
             userSettings.locationDisplay,
             userSettings.dnsDisplay,
         ]
-        let visibleCount = modes.filter { $0 != .hidden }.count
+        var visibleCount = modes.filter { $0 != .hidden }.count
+        // If local IP row is visible and both interfaces have different IPs, it expands to 2 rows
+        if userSettings.localIPDisplay != .hidden {
+            let ethIP  = appState.ethernetIP
+            let wifiIP = appState.wifiIP
+            if appState.ethernetConnected && appState.wifiEnabled && ethIP != wifiIP && ethIP != "—" && wifiIP != "—" {
+                visibleCount += 1
+            }
+        }
         let height: CGFloat = visibleCount > 0 ? CGFloat(visibleCount * 19 + 8) : 1
         let hasContent = height > 1
         ipInfoItem.view?.frame = NSRect(x: 0, y: 0, width: 220, height: height)
@@ -552,12 +561,25 @@ struct IPInfoView: View {
     @State private var revealed: Set<Int> = []
 
     private var rows: [(label: String, value: String, mode: IPInfoDisplayMode)] {
-        [
-            ("Local IP",  state.localIP,    settings.localIPDisplay),
-            ("Public IP", state.publicIP,   settings.publicIPDisplay),
-            ("Location",  state.ipLocation, settings.locationDisplay),
-            ("DNS",       state.dns,        settings.dnsDisplay),
-        ]
+        var result: [(String, String, IPInfoDisplayMode)] = []
+        let ethIP  = state.ethernetIP
+        let wifiIP = state.wifiIP
+        let bothConnected = state.ethernetConnected && state.wifiEnabled
+        let bothDiffer = bothConnected && ethIP != wifiIP && ethIP != "—" && wifiIP != "—"
+        if bothDiffer {
+            result.append(("Ethernet IP", ethIP,  settings.localIPDisplay))
+            result.append(("Wi-Fi IP",    wifiIP, settings.localIPDisplay))
+        } else if state.ethernetConnected && ethIP != "—" {
+            result.append(("Local IP", ethIP, settings.localIPDisplay))
+        } else if state.wifiEnabled && wifiIP != "—" {
+            result.append(("Local IP", wifiIP, settings.localIPDisplay))
+        } else {
+            result.append(("Local IP", "—", settings.localIPDisplay))
+        }
+        result.append(("Public IP", state.publicIP,   settings.publicIPDisplay))
+        result.append(("Location",  state.ipLocation, settings.locationDisplay))
+        result.append(("DNS",       state.dns,        settings.dnsDisplay))
+        return result
     }
 
     private var modeKey: [IPInfoDisplayMode] { rows.map(\.mode) }
